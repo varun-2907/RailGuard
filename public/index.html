@@ -1238,7 +1238,7 @@
 				<div class="content-grid">
 					<div class="content-card" style="text-align: center">
 						<h3><i class="fas fa-exclamation-triangle"></i>Emergency SOS</h3>
-						<a href="tel:182" style="text-decoration: none"
+						<a href="tel:+916303545403" style="text-decoration: none"
 							><button class="sos-button" id="sosBtn">
 								<i class="fas fa-bell"></i><span>SOS</span>
 							</button></a
@@ -3558,7 +3558,9 @@
 				backBtns.forEach((btn) =>
 					btn.addEventListener("click", () =>
 						showPage(
-							currentUser.role === "admin" ? "adminDashboardPage" : "homePage"
+							currentUser && currentUser.role === "admin"
+								? "adminDashboardPage"
+								: "homePage"
 						)
 					)
 				);
@@ -3593,7 +3595,7 @@
 					const button = e.target.querySelector(".login-button");
 					const buttonText = button.querySelector(".button-text");
 					const loadingSpinner = button.querySelector(".loading");
-					buttonText.classList.add("hidden");
+					buttonText.textContent = "Signing In...";
 					loadingSpinner.classList.remove("hidden");
 					button.disabled = true;
 
@@ -3621,7 +3623,7 @@
 					} catch (error) {
 						showNotification("Could not connect to the server.", "warning");
 					} finally {
-						buttonText.classList.remove("hidden");
+						buttonText.textContent = "Sign In";
 						loadingSpinner.classList.add("hidden");
 						button.disabled = false;
 					}
@@ -3751,6 +3753,27 @@
 						"Your report has been sent. Thank you for your vigilance.",
 				}));
 
+				const requestRefillBtn = document.getElementById("requestRefillBtn");
+				if (requestRefillBtn) {
+					requestRefillBtn.addEventListener("click", () => {
+						if (currentUser) {
+							const text = `WATER REFILL REQUEST: User requested a water refill for Tank 2 (B4).`;
+							socket.emit("sendMessage", {
+								user: currentUser.username,
+								sender: "user",
+								text: text,
+							});
+							showNotification(
+								"A water refill request has been sent to the staff.",
+								"success"
+							);
+							document.getElementById("waterTankStatus").innerHTML =
+								"Tank 2 (B4): <strong>Refill Requested</strong>";
+							requestRefillBtn.disabled = true;
+						}
+					});
+				}
+
 				const conversationsList = document.getElementById("conversationsList");
 				const chatMessages = document.getElementById("chatMessages");
 				const chatInputArea = document.getElementById("chatInputArea");
@@ -3802,13 +3825,21 @@
 						if (!convo.messages || convo.messages.length === 0) return;
 						const lastMessage = convo.messages[convo.messages.length - 1];
 						const convoDiv = document.createElement("div");
+						let icon = "fa-comment-dots";
+						if (lastMessage.text.startsWith("HYGIENE")) icon = "fa-broom";
+						if (lastMessage.text.startsWith("OVERPRICING"))
+							icon = "fa-rupee-sign";
+						if (lastMessage.text.startsWith("REFUND")) icon = "fa-undo";
+						if (lastMessage.text.startsWith("WATER REFILL")) icon = "fa-tint";
+						if (lastMessage.text.startsWith("SUSPICIOUS"))
+							icon = "fa-exclamation-triangle";
 						convoDiv.className = "conversation";
 						convoDiv.dataset.convoId = convoId;
-						convoDiv.innerHTML = `<h4>${
+						convoDiv.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="fas ${icon}" style="color: var(--primary-color);"></i><div><h4>${
 							convo.user
 						}</h4><p>${lastMessage.text.substring(0, 30)}${
 							lastMessage.text.length > 30 ? "..." : ""
-						}</p>`;
+						}</p></div></div>`;
 						convoDiv.addEventListener("click", () => loadMessages(convoId));
 						conversationsList.appendChild(convoDiv);
 					});
