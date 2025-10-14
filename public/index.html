@@ -49,24 +49,26 @@
 				overflow-x: hidden;
 			}
 
-			/* Login Page */
-			.login-page {
+			/* Login & Sign Up Page */
+			.login-page,
+			.signup-page {
 				min-height: 100vh;
 				background-image: url("rail background.jpg");
 				background-size: cover;
 				background-position: center;
-				display: none; /* Changed from flex to none to hide it by default */
+				display: none;
 				align-items: center;
 				justify-content: center;
 				position: relative;
 			}
 
-			.login-page.active {
-				/* This new rule will only display the login page when it's active */
+			.login-page.active,
+			.signup-page.active {
 				display: flex;
 			}
 
-			.login-page::before {
+			.login-page::before,
+			.signup-page::before {
 				content: "";
 				position: absolute;
 				inset: 0;
@@ -163,6 +165,10 @@
 				transform: translateY(-2px);
 				box-shadow: 0 8px 25px rgba(26, 54, 93, 0.3);
 			}
+			.login-button:disabled {
+				cursor: not-allowed;
+				background: var(--secondary-color);
+			}
 
 			.login-footer {
 				margin-top: 1.5rem;
@@ -174,37 +180,18 @@
 				text-decoration: none;
 			}
 
-			/* This is for the new Sign Up page, which will reuse login styles */
-			.signup-page {
-				min-height: 100vh;
-				background-image: url("rail background.jpg");
-				background-size: cover;
-				background-position: center;
-				display: none; /* Hidden by default */
-				align-items: center;
-				justify-content: center;
-				position: relative;
-			}
-			.signup-page.active {
-				display: flex;
-			}
-			.signup-page::before {
-				content: "";
-				position: absolute;
-				inset: 0;
-				background: rgba(26, 54, 93, 0.7);
-			}
-
 			/* Home Page & General Page Styles */
 			.home-page,
-			.page-view {
+			.page-view,
+			#adminDashboardPage {
 				display: none;
 				flex-direction: column;
 				min-height: 100vh;
 				animation: fadeIn 0.5s ease-out;
 			}
 			.home-page.active,
-			.page-view.active {
+			.page-view.active,
+			#adminDashboardPage.active {
 				display: flex;
 			}
 
@@ -222,6 +209,8 @@
 				max-width: 1200px;
 				margin: 0 auto;
 				padding: 0 2rem;
+			}
+			.nav-container {
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -315,8 +304,7 @@
 			}
 
 			/* Services & Sections */
-			.services-section,
-			.quick-actions {
+			.services-section {
 				padding: 4rem 0;
 			}
 			.section-header {
@@ -422,6 +410,7 @@
 				color: var(--white);
 				padding: 3rem 0 1rem;
 				text-align: center;
+				margin-top: auto;
 			}
 			.footer-content {
 				max-width: 1200px;
@@ -523,77 +512,6 @@
 				grid-column: 1 / -1;
 			}
 
-			#trainSearchResults .train-card {
-				display: flex;
-				align-items: center;
-				padding: 1rem;
-				border: 1px solid #e2e8f0;
-				border-radius: 8px;
-				margin-bottom: 1rem;
-				gap: 1rem;
-			}
-			#trainSearchResults .train-info {
-				flex-grow: 1;
-			}
-			#trainSearchResults .train-checkbox {
-				width: 20px;
-				height: 20px;
-				flex-shrink: 0;
-			}
-			#trainSearchResults .train-info h4 {
-				font-size: 1.1rem;
-			}
-			#trainSearchResults .train-info p {
-				font-size: 0.9rem;
-				color: var(--text-light);
-			}
-
-			.occupancy-visualizer {
-				margin-top: 1rem;
-			}
-			.coach {
-				border: 2px solid #cbd5e0;
-				border-radius: 8px;
-				padding: 1rem;
-				margin-bottom: 1rem;
-			}
-			.coach-header {
-				font-weight: bold;
-				margin-bottom: 1rem;
-			}
-			.seat-grid {
-				display: grid;
-				grid-template-columns: repeat(12, 1fr);
-				gap: 5px;
-			}
-			.seat {
-				height: 20px;
-				border-radius: 4px;
-				background-color: #a0aec0;
-				opacity: 0.3;
-			}
-			.seat.low {
-				background-color: var(--available);
-				opacity: 1;
-			}
-			.seat.medium {
-				background-color: #ecc94b;
-				opacity: 1;
-			}
-			.seat.high {
-				background-color: var(--occupied);
-				opacity: 1;
-			}
-
-			#cameraFeed {
-				width: 100%;
-				max-width: 400px;
-				height: auto;
-				border-radius: 8px;
-				margin-top: 1rem;
-				background-color: #000;
-			}
-
 			/* Safety Page Specifics */
 			.sos-button {
 				background: var(--accent-color);
@@ -678,17 +596,16 @@
 				inset: 0;
 				background: rgba(0, 0, 0, 0.6);
 				backdrop-filter: blur(5px);
-				display: flex;
+				display: none;
 				align-items: center;
 				justify-content: center;
 				z-index: 2000;
 				opacity: 0;
-				visibility: hidden;
-				transition: opacity 0.3s, visibility 0.3s;
+				transition: opacity 0.3s;
 			}
 			.modal-overlay.active {
+				display: flex;
 				opacity: 1;
-				visibility: visible;
 			}
 			.modal-content {
 				background: var(--white);
@@ -707,13 +624,13 @@
 				font-size: 3rem;
 				margin-bottom: 1rem;
 			}
-			.modal-icon.success {
+			.modal-icon .success {
 				color: var(--success);
 			}
-			.modal-icon.warning {
+			.modal-icon .warning {
 				color: #f59e0b;
 			}
-			.modal-icon.info {
+			.modal-icon .info {
 				color: #3b82f6;
 			}
 			.modal-title {
@@ -789,7 +706,6 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 			}
-
 			.chat-window {
 				width: 70%;
 				display: flex;
@@ -987,7 +903,7 @@
 				</div>
 			</section>
 			<section class="services-section">
-				<div class="section-container" style="display: block">
+				<div class="section-container">
 					<div class="section-header">
 						<h2 class="section-title">Our Services</h2>
 						<p class="section-subtitle">
@@ -996,7 +912,6 @@
 						</p>
 					</div>
 					<div class="services-grid">
-						<!-- Service cards will be navigated via JS -->
 						<div class="service-card" data-page="hygienePage">
 							<div class="service-icon"><i class="fas fa-broom"></i></div>
 							<h3 class="service-title">Hygiene & Cleanliness</h3>
@@ -1086,10 +1001,7 @@
 
 		<!-- Hygiene Page -->
 		<div id="hygienePage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Hygiene & Cleanliness</h2>
@@ -1144,8 +1056,8 @@
 						<h3><i class="fas fa-exclamation-circle"></i>Submit a Complaint</h3>
 						<form id="complaintForm">
 							<div class="form-group">
-								<label for="complaintType">Issue</label>
-								<select id="complaintType" class="form-control">
+								<label for="complaintType">Issue</label
+								><select id="complaintType" class="form-control">
 									<option>Dirty Seat</option>
 									<option>Fan Not Working</option>
 									<option>Light Not Working</option>
@@ -1153,8 +1065,8 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label for="coachNumber">Coach Number</label>
-								<input
+								<label for="coachNumber">Coach Number</label
+								><input
 									type="text"
 									id="coachNumber"
 									class="form-control"
@@ -1166,14 +1078,16 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Food Page -->
 		<div id="foodPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Food & Vendor Management</h2>
@@ -1191,8 +1105,8 @@
 						<h3><i class="fas fa-camera"></i>Report Overpricing</h3>
 						<form id="overpricingForm">
 							<div class="form-group">
-								<label for="overpricingDesc">Description (Item & Price)</label>
-								<input
+								<label for="overpricingDesc">Description (Item & Price)</label
+								><input
 									type="text"
 									id="overpricingDesc"
 									class="form-control"
@@ -1200,16 +1114,15 @@
 									required
 								/>
 							</div>
-							<label for="overpricingImage">Upload Image Proof</label>
-							<input
+							<label for="overpricingImage">Upload Image Proof</label
+							><input
 								type="file"
 								id="overpricingImage"
 								accept="image/*"
 								class="form-control"
 								style="margin-bottom: 1rem"
 								required
-							/>
-							<button type="submit" class="btn btn-primary">Report</button>
+							/><button type="submit" class="btn btn-primary">Report</button>
 						</form>
 					</div>
 					<div class="content-card">
@@ -1234,8 +1147,8 @@
 						<h3><i class="fas fa-undo"></i>Stale Food Refund System</h3>
 						<form id="refundForm">
 							<div class="form-group">
-								<label for="pnrNumber">PNR Number</label>
-								<input type="text" id="pnrNumber" class="form-control" />
+								<label for="pnrNumber">PNR Number</label
+								><input type="text" id="pnrNumber" class="form-control" />
 							</div>
 							<button type="submit" class="btn btn-primary">
 								Request Refund
@@ -1244,14 +1157,16 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Ticketing Page -->
 		<div id="ticketingPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Ticketing & Occupancy</h2>
@@ -1262,8 +1177,8 @@
 						<form id="trainSearchForm" class="train-search-form">
 							<div class="form-group">
 								<div>
-									<label for="fromStation">From Station</label>
-									<input
+									<label for="fromStation">From Station</label
+									><input
 										type="text"
 										id="fromStation"
 										class="form-control"
@@ -1273,8 +1188,8 @@
 									/>
 								</div>
 								<div>
-									<label for="toStation">To Station</label>
-									<input
+									<label for="toStation">To Station</label
+									><input
 										type="text"
 										id="toStation"
 										class="form-control"
@@ -1285,8 +1200,8 @@
 								</div>
 							</div>
 							<div class="form-group full-width">
-								<label for="travelDate">Date of Travel</label>
-								<input
+								<label for="travelDate">Date of Travel</label
+								><input
 									type="date"
 									id="travelDate"
 									class="form-control"
@@ -1294,66 +1209,28 @@
 								/>
 							</div>
 							<button type="submit" class="btn btn-primary full-width">
-								Find Trains
-							</button>
-							<datalist id="stationList">
+								Find Trains</button
+							><datalist id="stationList">
 								<option value="Mumbai (CST)"></option>
 								<option value="Delhi (NDLS)"></option>
 								<option value="Kolkata (HWH)"></option>
 								<option value="Chennai (MAS)"></option>
 								<option value="Bengaluru (SBC)"></option>
-								<option value="Pune (PUNE)"></option>
-								<option value="Ahmedabad (ADI)"></option>
-								<option value="Hyderabad (SC)"></option>
 							</datalist>
 						</form>
 					</div>
-					<div
-						id="trainSearchResultsContainer"
-						class="content-card hidden"
-						style="grid-column: 1 / -1"
-					>
-						<h3><i class="fas fa-train"></i>Available Trains</h3>
-						<div id="trainSearchResults"></div>
-						<div
-							id="bookingActions"
-							class="hidden"
-							style="text-align: right; margin-top: 1rem"
-						>
-							<button id="bookSelectedBtn" class="btn btn-primary">
-								Book Selected Trains
-							</button>
-						</div>
-					</div>
-					<div
-						class="content-card hidden"
-						id="occupancyCard"
-						style="grid-column: 1 / -1"
-					>
-						<h3><i class="fas fa-users"></i>Coach-wise Occupancy Visualizer</h3>
-						<div id="occupancyVisualizer" class="occupancy-visualizer"></div>
-					</div>
-					<div class="content-card">
-						<h3><i class="fas fa-id-card"></i>Face Recognition Validation</h3>
-						<p>Use facial recognition for a seamless, ticketless journey.</p>
-						<button
-							id="faceScanBtn"
-							class="btn btn-primary"
-							style="margin-top: 1rem"
-						>
-							Initiate Face Scan
-						</button>
-					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Safety Page -->
 		<div id="safetyPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Passenger Safety</h2>
@@ -1361,13 +1238,11 @@
 				<div class="content-grid">
 					<div class="content-card" style="text-align: center">
 						<h3><i class="fas fa-exclamation-triangle"></i>Emergency SOS</h3>
-						<a href="tel:1234567890" style="text-decoration: none">
-							<!-- Replace with your number -->
-							<button class="sos-button" id="sosBtn">
-								<i class="fas fa-bell"></i>
-								<span>SOS</span>
-							</button>
-						</a>
+						<a href="tel:182" style="text-decoration: none"
+							><button class="sos-button" id="sosBtn">
+								<i class="fas fa-bell"></i><span>SOS</span>
+							</button></a
+						>
 						<p>
 							Press in case of emergency. RPF will be alerted immediately with
 							your location.
@@ -1390,8 +1265,8 @@
 						</h3>
 						<form id="suspicionForm">
 							<div class="form-group">
-								<label for="activityDesc">Description</label>
-								<textarea
+								<label for="activityDesc">Description</label
+								><textarea
 									id="activityDesc"
 									class="form-control"
 									rows="3"
@@ -1404,14 +1279,16 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Comfort Page -->
 		<div id="comfortPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Passenger Comfort</h2>
@@ -1422,8 +1299,8 @@
 						<p>Prevents passengers from missing their destination station.</p>
 						<form id="alarmForm">
 							<div class="form-group">
-								<label for="station">Destination Station</label>
-								<input
+								<label for="station">Destination Station</label
+								><input
 									type="text"
 									id="station"
 									class="form-control"
@@ -1431,8 +1308,8 @@
 								/>
 							</div>
 							<div class="form-group">
-								<label for="alarmTime">Alarm Time</label>
-								<input type="time" id="alarmTime" class="form-control" />
+								<label for="alarmTime">Alarm Time</label
+								><input type="time" id="alarmTime" class="form-control" />
 							</div>
 							<button type="submit" class="btn btn-primary">Set Alarm</button>
 						</form>
@@ -1460,14 +1337,16 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Sustainability Page -->
 		<div id="sustainabilityPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Sustainability & Eco-Travel</h2>
@@ -1507,14 +1386,16 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Feedback Page -->
 		<div id="feedbackPage" class="page-view">
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem">
 				<div class="page-header">
 					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
 					<h2>Feedback & Analytics</h2>
@@ -1539,8 +1420,8 @@
 						<h3><i class="fas fa-paper-plane"></i>Send Feedback to Admin</h3>
 						<form id="userFeedbackForm">
 							<div class="form-group">
-								<label for="userFeedbackInput">Your Message</label>
-								<textarea
+								<label for="userFeedbackInput">Your Message</label
+								><textarea
 									id="userFeedbackInput"
 									class="form-control"
 									rows="3"
@@ -1553,14 +1434,18 @@
 								accept="image/*"
 								class="form-control"
 								style="margin-bottom: 1rem"
-							/>
-							<button type="submit" class="btn btn-primary">
+							/><button type="submit" class="btn btn-primary">
 								Send Feedback
 							</button>
 						</form>
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Admin Dashboard Page -->
@@ -1581,18 +1466,13 @@
 					</div>
 				</div>
 			</nav>
-			<div
-				class="section-container"
-				style="display: block; width: 100%; padding-top: 2rem"
-			>
+			<div class="section-container" style="padding-top: 2rem; flex-grow: 1">
 				<h3><i class="fas fa-headset"></i>Live Support & Alerts</h3>
 				<p style="margin-bottom: 1rem; color: var(--text-light)">
 					Select a conversation to view messages and reply.
 				</p>
 				<div class="chat-container">
-					<div class="conversations-list" id="conversationsList">
-						<!-- Conversations will be loaded here by JS -->
-					</div>
+					<div class="conversations-list" id="conversationsList"></div>
 					<div class="chat-window">
 						<div class="chat-messages" id="chatMessages">
 							<p id="no-convo-selected">
@@ -1606,8 +1486,7 @@
 								id="adminReplyInput"
 								class="form-control"
 								placeholder="Type your reply..."
-							/>
-							<button
+							/><button
 								id="sendReplyBtn"
 								class="btn btn-primary"
 								style="width: auto"
@@ -1618,6 +1497,11 @@
 					</div>
 				</div>
 			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
 		</div>
 
 		<!-- Custom Modal -->
@@ -1633,6 +1517,7 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
+				// --- ELEMENT SELECTORS ---
 				const loginForm = document.getElementById("loginForm");
 				const signUpForm = document.getElementById("signUpForm");
 				const loginPage = document.getElementById("loginPage");
@@ -1640,145 +1525,33 @@
 				const homePage = document.getElementById("homePage");
 				const adminDashboardPage =
 					document.getElementById("adminDashboardPage");
-				const adminLogoutBtn = document.getElementById("adminLogoutBtn");
 				const logoutBtn = document.getElementById("logoutBtn");
+				const adminLogoutBtn = document.getElementById("adminLogoutBtn");
 				const showSignUp = document.getElementById("showSignUp");
 				const showLogin = document.getElementById("showLogin");
 				const serviceCards = document.querySelectorAll(".service-card");
 				const backBtns = document.querySelectorAll(".back-btn");
-				const pages = document.querySelectorAll(".page-view");
 				const welcomeUser = document.getElementById("welcomeUser");
 
-				// --- REAL-TIME & STATE MANAGEMENT ---
-				const socket = io(); // Connect to the Socket.IO server
-				let messageDatabase = {}; // This will be populated from the backend
-				let currentUser = null; // To store the currently logged-in user's info
+				const socket = io();
+				let currentUser = null;
+				let messageDatabase = {};
 				let activeConversationId = null;
 
-				// --- MOCK DATABASE ---
-				const trainDatabase = {
-					"Mumbai (CST)-Delhi (NDLS)": [
-						{
-							id: "12345",
-							name: "Mumbai Rajdhani",
-							departure: "17:00",
-							arrival: "08:30",
-							coaches: [
-								{ type: "Sleeper (S5)", occupancy: 0.95 },
-								{ type: "AC 3-Tier (B2)", occupancy: 0.7 },
-								{ type: "AC 2-Tier (A1)", occupancy: 0.4 },
-							],
-						},
-						{
-							id: "67890",
-							name: "Garib Rath",
-							departure: "21:00",
-							arrival: "15:00",
-							coaches: [
-								{ type: "AC 3-Tier (G1)", occupancy: 0.98 },
-								{ type: "AC 3-Tier (G2)", occupancy: 1.0 },
-							],
-						},
-					],
-					"Delhi (NDLS)-Mumbai (CST)": [
-						{
-							id: "12346",
-							name: "Mumbai Rajdhani",
-							departure: "17:00",
-							arrival: "08:30",
-							coaches: [
-								{ type: "Sleeper (S5)", occupancy: 0.85 },
-								{ type: "AC 3-Tier (B2)", occupancy: 0.6 },
-								{ type: "AC 2-Tier (A1)", occupancy: 0.5 },
-							],
-						},
-					],
-					"Kolkata (HWH)-Delhi (NDLS)": [
-						{
-							id: "54321",
-							name: "Howrah Duronto",
-							departure: "08:00",
-							arrival: "06:00",
-							coaches: [
-								{ type: "Sleeper (S8)", occupancy: 0.88 },
-								{ type: "AC 3-Tier (B5)", occupancy: 0.92 },
-								{ type: "AC 1st Class (H1)", occupancy: 0.5 },
-							],
-						},
-					],
-					"Delhi (NDLS)-Kolkata (HWH)": [
-						{
-							id: "54322",
-							name: "Howrah Rajdhani",
-							departure: "16:50",
-							arrival: "09:55",
-							coaches: [
-								{ type: "AC 3-Tier (B1)", occupancy: 0.9 },
-								{ type: "AC 2-Tier (A1)", occupancy: 0.75 },
-								{ type: "AC 1st Class (H1)", occupancy: 0.6 },
-							],
-						},
-					],
-					"Chennai (MAS)-Bengaluru (SBC)": [
-						{
-							id: "98765",
-							name: "Shatabdi Express",
-							departure: "06:00",
-							arrival: "11:00",
-							coaches: [
-								{ type: "AC Chair Car (C1)", occupancy: 0.6 },
-								{ type: "Exec. Chair Car (E1)", occupancy: 0.35 },
-							],
-						},
-					],
-					"Bengaluru (SBC)-Chennai (MAS)": [
-						{
-							id: "98766",
-							name: "Brindavan Express",
-							departure: "15:00",
-							arrival: "21:00",
-							coaches: [
-								{ type: "AC Chair Car (C4)", occupancy: 0.75 },
-								{ type: "Second Sitting (D1)", occupancy: 0.95 },
-							],
-						},
-					],
-					"Pune (PUNE)-Ahmedabad (ADI)": [
-						{
-							id: "11088",
-							name: "Pune-Bhuj Express",
-							departure: "20:10",
-							arrival: "07:35",
-							coaches: [
-								{ type: "Sleeper (S3)", occupancy: 0.8 },
-								{ type: "AC 3-Tier (B1)", occupancy: 0.65 },
-							],
-						},
-					],
-				};
-
-				// --- MODAL ---
 				const modal = document.getElementById("customModal");
 				const modalIcon = document.getElementById("modalIcon");
 				const modalTitle = document.getElementById("modalTitle");
 				const modalBody = document.getElementById("modalBody");
 				const modalActions = document.getElementById("modalActions");
-				let currentCameraStream = null;
 
-				function showModal({ icon, title, body, actions, onclose }) {
+				// --- MODAL FUNCTIONS ---
+				function showModal({ icon, title, body, actions }) {
 					modalIcon.innerHTML = icon || "";
 					modalTitle.textContent = title || "";
-					modalBody.innerHTML = body || ""; // Use innerHTML to render form elements
+					modalBody.innerHTML = body || "";
 					modalActions.innerHTML = "";
 
-					const closeModalHandler = () => {
-						if (currentCameraStream) {
-							currentCameraStream.getTracks().forEach((track) => track.stop());
-							currentCameraStream = null;
-						}
-						if (onclose) onclose();
-						closeModal();
-					};
+					const closeModalHandler = () => modal.classList.remove("active");
 
 					if (actions && actions.length > 0) {
 						actions.forEach((action) => {
@@ -1795,17 +1568,11 @@
 							};
 							modalActions.appendChild(button);
 						});
-					} else {
-						modal.onclick = (e) => {
-							if (e.target === modal) closeModalHandler();
-						};
 					}
 					modal.classList.add("active");
-				}
-
-				function closeModal() {
-					modal.classList.remove("active");
-					modal.onclick = null;
+					modal.onclick = (e) => {
+						if (e.target === modal) closeModalHandler();
+					};
 				}
 
 				function showNotification(message, type = "info") {
@@ -1822,46 +1589,40 @@
 					});
 				}
 
-				// --- NAVIGATION ---
+				// --- PAGE NAVIGATION ---
 				function showPage(pageId) {
-					// Hide all pages first
 					document
 						.querySelectorAll(
-							".login-page, .signup-page, .home-page, .page-view"
+							".login-page, .signup-page, .home-page, .page-view, #adminDashboardPage"
 						)
-						.forEach((p) => {
-							p.classList.remove("active");
-						});
-
+						.forEach((p) => p.classList.remove("active"));
 					const targetPage = document.getElementById(pageId);
-					if (targetPage) {
-						targetPage.classList.add("active");
-					}
+					if (targetPage) targetPage.classList.add("active");
 					window.scrollTo(0, 0);
 				}
 
-				serviceCards.forEach((card) => {
-					card.addEventListener("click", () => {
-						const pageId = card.dataset.page;
-						showPage(pageId);
-					});
-				});
-
-				backBtns.forEach((btn) => {
-					btn.addEventListener("click", () => showPage("homePage"));
-				});
-
+				serviceCards.forEach((card) =>
+					card.addEventListener("click", () => showPage(card.dataset.page))
+				);
+				backBtns.forEach((btn) =>
+					btn.addEventListener("click", () =>
+						showPage(
+							currentUser && currentUser.role === "admin"
+								? "adminDashboardPage"
+								: "homePage"
+						)
+					)
+				);
 				showSignUp.addEventListener("click", (e) => {
 					e.preventDefault();
 					showPage("signUpPage");
 				});
-
 				showLogin.addEventListener("click", (e) => {
 					e.preventDefault();
 					showPage("loginPage");
 				});
 
-				// --- PERSISTENCE (with localStorage for session) ---
+				// --- AUTHENTICATION ---
 				function checkLoginStatus() {
 					const loggedInUser = localStorage.getItem("railguard_user");
 					if (loggedInUser) {
@@ -1869,69 +1630,52 @@
 						if (currentUser.role === "admin") {
 							showPage("adminDashboardPage");
 							fetchAndLoadMessages();
-						} else if (currentUser.role === "user") {
+						} else {
 							welcomeUser.textContent = `Welcome, ${currentUser.username}`;
 							showPage("homePage");
-						} else {
-							showPage("loginPage");
 						}
 					} else {
 						showPage("loginPage");
 					}
 				}
-				// --- LOGIN & LOGOUT ---
-				loginForm.addEventListener("submit", (e) => {
-					e.preventDefault();
 
+				loginForm.addEventListener("submit", async (e) => {
+					e.preventDefault();
 					const button = e.target.querySelector(".login-button");
 					const buttonText = button.querySelector(".button-text");
 					const loadingSpinner = button.querySelector(".loading");
-
-					// Show loading state
 					buttonText.textContent = "Signing In...";
 					loadingSpinner.classList.remove("hidden");
 					button.disabled = true;
 
-					// Simulate API call delay
-					setTimeout(async () => {
-						const username = document.getElementById("username").value;
-						const password = document.getElementById("password").value;
+					const username = document.getElementById("username").value;
+					const password = document.getElementById("password").value;
 
-						try {
-							const response = await fetch("/api/login", {
-								method: "POST",
-								headers: { "Content-Type": "application/json" },
-								body: JSON.stringify({ username, password }),
-							});
-
-							const data = await response.json();
-
-							if (response.ok) {
-								currentUser = data.user;
-								localStorage.setItem(
-									"railguard_user",
-									JSON.stringify(currentUser)
-								);
-								if (currentUser.role === "admin") {
-									showPage("adminDashboardPage");
-									fetchAndLoadMessages();
-								} else {
-									welcomeUser.textContent = `Welcome, ${currentUser.username}`;
-									showPage("homePage");
-								}
-								loginForm.reset();
-							} else {
-								showNotification(data.message || "Login failed.", "warning");
-							}
-						} catch (error) {
-							showNotification("Could not connect to the server.", "warning");
+					try {
+						const response = await fetch("/api/login", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ username, password }),
+						});
+						const data = await response.json();
+						if (response.ok) {
+							currentUser = data.user;
+							localStorage.setItem(
+								"railguard_user",
+								JSON.stringify(currentUser)
+							);
+							checkLoginStatus();
+							loginForm.reset();
+						} else {
+							showNotification(data.message || "Login failed.", "warning");
 						}
-
-						// Reset button state
+					} catch (error) {
+						showNotification("Could not connect to the server.", "warning");
+					} finally {
 						buttonText.textContent = "Sign In";
 						loadingSpinner.classList.add("hidden");
 						button.disabled = false;
-					}, 1000); // 1-second delay
+					}
 				});
 
 				signUpForm.addEventListener("submit", async (e) => {
@@ -1939,21 +1683,17 @@
 					const username = document.getElementById("newUsername").value;
 					const pass1 = document.getElementById("newPassword").value;
 					const pass2 = document.getElementById("confirmPassword").value;
-
 					if (pass1 !== pass2) {
 						showNotification("Passwords do not match!", "warning");
 						return;
 					}
-
 					try {
 						const response = await fetch("/api/signup", {
 							method: "POST",
 							headers: { "Content-Type": "application/json" },
-							body: JSON.stringify({ username: username, password: pass1 }),
+							body: JSON.stringify({ username, password: pass1 }),
 						});
-
 						const data = await response.json();
-
 						if (response.ok) {
 							showNotification(
 								"Sign up successful! You can now log in.",
@@ -1969,426 +1709,99 @@
 					}
 				});
 
-				logoutBtn.addEventListener("click", () => {
+				const handleLogout = () => {
+					localStorage.removeItem("railguard_user");
+					currentUser = null;
+					showPage("loginPage");
+				};
+
+				const confirmAndLogout = (message) => {
 					showModal({
 						icon: '<i class="fas fa-question-circle warning"></i>',
 						title: "Confirm Logout",
-						body: "Are you sure you want to log out?",
+						body: message,
 						actions: [
 							{ text: "Cancel", class: "btn-secondary" },
-							{
-								text: "Logout",
-								class: "btn-danger",
-								callback: () => {
-									localStorage.removeItem("railguard_user");
-									currentUser = null;
-									showPage("loginPage");
-								},
-							},
+							{ text: "Logout", class: "btn-danger", callback: handleLogout },
 						],
 					});
-				});
+				};
 
-				adminLogoutBtn.addEventListener("click", () => {
-					showModal({
-						icon: '<i class="fas fa-question-circle warning"></i>',
-						title: "Confirm Logout",
-						body: "Are you sure you want to log out from the admin panel?",
-						actions: [
-							{ text: "Cancel", class: "btn-secondary" },
-							{
-								text: "Logout",
-								class: "btn-danger",
-								callback: () => {
-									localStorage.removeItem("railguard_user");
-									currentUser = null;
-									showPage("loginPage");
-								},
-							},
-						],
-					});
-				});
-
-				// --- TICKETING PAGE ---
-				const trainSearchForm = document.getElementById("trainSearchForm");
-				const travelDateInput = document.getElementById("travelDate");
-				const trainSearchResultsContainer = document.getElementById(
-					"trainSearchResultsContainer"
+				logoutBtn.addEventListener("click", () =>
+					confirmAndLogout("Are you sure you want to log out?")
 				);
-				const trainSearchResults =
-					document.getElementById("trainSearchResults");
-				const occupancyCard = document.getElementById("occupancyCard");
-				const occupancyVisualizer = document.getElementById(
-					"occupancyVisualizer"
+				adminLogoutBtn.addEventListener("click", () =>
+					confirmAndLogout(
+						"Are you sure you want to log out from the admin panel?"
+					)
 				);
-				const bookingActions = document.getElementById("bookingActions");
-				const bookSelectedBtn = document.getElementById("bookSelectedBtn");
 
-				// Set default travel date to today
-				travelDateInput.valueAsDate = new Date();
-
-				function generateMockTrains(from, to) {
-					const mockTrains = [];
-					const numTrains = Math.floor(Math.random() * 2) + 2; // Generate 2 or 3 trains
-
-					for (let i = 0; i < numTrains; i++) {
-						const depHour = Math.floor(Math.random() * 15) + 6; // Departure between 6 AM and 8 PM
-						const depMin = [0, 15, 30, 45][Math.floor(Math.random() * 4)];
-						const travelHours = Math.floor(Math.random() * 8) + 8;
-						const arrHour = (depHour + travelHours) % 24;
-						const arrMin = [0, 15, 30, 45][Math.floor(Math.random() * 4)];
-
-						mockTrains.push({
-							id: `${Math.floor(Math.random() * 90000) + 10000}`,
-							name: `${from.split("(")[0].trim()}-${to
-								.split("(")[0]
-								.trim()} Express`,
-							departure: `${String(depHour).padStart(2, "0")}:${String(
-								depMin
-							).padStart(2, "0")}`,
-							arrival: `${String(arrHour).padStart(2, "0")}:${String(
-								arrMin
-							).padStart(2, "0")}`,
-							coaches: [
-								{ type: "Sleeper (SL)", occupancy: Math.random() * 0.4 + 0.6 }, // 60-100%
-								{
-									type: "AC 3-Tier (3A)",
-									occupancy: Math.random() * 0.5 + 0.4,
-								}, // 40-90%
-								{
-									type: "AC 2-Tier (2A)",
-									occupancy: Math.random() * 0.6 + 0.2,
-								}, // 20-80%
-							],
-						});
-					}
-					return mockTrains;
-				}
-
-				trainSearchForm.addEventListener("submit", (e) => {
-					e.preventDefault();
-					const from = document.getElementById("fromStation").value;
-					const to = document.getElementById("toStation").value;
-					const routeKey = `${from}-${to}`;
-					let trains = trainDatabase[routeKey];
-
-					occupancyCard.classList.add("hidden");
-					trainSearchResults.innerHTML = "";
-					bookingActions.classList.add("hidden"); // Reset on new search
-
-					// If no pre-defined trains are found, generate mock ones
-					if (!trains || trains.length === 0) {
-						trains = generateMockTrains(from, to);
-					}
-
-					if (trains && trains.length > 0) {
-						trains.forEach((train) => {
-							const trainCard = document.createElement("div");
-							trainCard.className = "train-card";
-							trainCard.innerHTML = `
-                        <input type="checkbox" class="train-checkbox" data-route="${routeKey}" data-train-id="${train.id}">
-                        <div class="train-info">
-                            <h4>${train.name} (#${train.id})</h4>
-                            <p>${train.departure} &rarr; ${train.arrival}</p>
-                        </div>
-                        <button class="btn btn-secondary check-occupancy-btn" data-route="${routeKey}" data-train-id="${train.id}">Check Occupancy</button>
-                    `;
-							trainSearchResults.appendChild(trainCard);
-						});
-						trainSearchResultsContainer.classList.remove("hidden");
-					} else {
-						trainSearchResults.innerHTML =
-							"<p>No trains found for this route.</p>";
-						trainSearchResultsContainer.classList.remove("hidden");
-					}
-				});
-
-				trainSearchResults.addEventListener("click", (e) => {
-					if (e.target.classList.contains("check-occupancy-btn")) {
-						const routeKey = e.target.dataset.route;
-						const trainId = e.target.dataset.trainId;
-
-						let train = (trainDatabase[routeKey] || []).find(
-							(t) => t.id === trainId
-						);
-						if (!train) {
-							// This logic assumes mock trains aren't stored, so we just show a generic occupancy
-							updateOccupancyVisualizer({
-								coaches: [
-									{
-										type: "Sleeper (SL)",
-										occupancy: Math.random() * 0.4 + 0.6,
-									},
-									{
-										type: "AC 3-Tier (3A)",
-										occupancy: Math.random() * 0.5 + 0.4,
-									},
-								],
-							});
-						} else {
-							updateOccupancyVisualizer(train);
-						}
-						occupancyCard.scrollIntoView({
-							behavior: "smooth",
-							block: "center",
-						});
-					}
-				});
-
-				trainSearchResults.addEventListener("change", (e) => {
-					if (e.target.classList.contains("train-checkbox")) {
-						const selectedCheckboxes = trainSearchResults.querySelectorAll(
-							".train-checkbox:checked"
-						);
-						if (selectedCheckboxes.length > 0) {
-							bookingActions.classList.remove("hidden");
-						} else {
-							bookingActions.classList.add("hidden");
-						}
-					}
-				});
-
-				bookSelectedBtn.addEventListener("click", () => {
-					const selectedCheckboxes = trainSearchResults.querySelectorAll(
-						".train-checkbox:checked"
-					);
-					if (selectedCheckboxes.length === 0) {
-						showNotification(
-							"Please select at least one train to book.",
-							"warning"
-						);
-						return;
-					}
-
-					let selectedTrains = [];
-					selectedCheckboxes.forEach((checkbox) => {
-						const trainName =
-							checkbox.nextElementSibling.querySelector("h4").textContent;
-						selectedTrains.push({ name: trainName });
-					});
-
-					openMultiBookingModal(selectedTrains);
-				});
-
-				function updateOccupancyVisualizer(train) {
-					occupancyVisualizer.innerHTML = "";
-					train.coaches.forEach((coachData) => {
-						const coachDiv = document.createElement("div");
-						coachDiv.className = "coach";
-						coachDiv.innerHTML = `<div class="coach-header">${
-							coachData.type
-						} - ${Math.round(
-							coachData.occupancy * 100
-						)}% Occupied</div><div class="seat-grid"></div>`;
-						const seatGrid = coachDiv.querySelector(".seat-grid");
-						occupancyVisualizer.appendChild(coachDiv);
-						generateSeats(seatGrid, coachData.occupancy);
-					});
-					occupancyCard.classList.remove("hidden");
-				}
-
-				function generateSeats(container, occupancy) {
-					container.innerHTML = "";
-					for (let i = 0; i < 72; i++) {
-						const seat = document.createElement("div");
-						seat.className = "seat";
-						if (Math.random() < occupancy) {
-							const rand = Math.random();
-							if (rand > 0.8) seat.classList.add("high");
-							else if (rand > 0.4) seat.classList.add("medium");
-							else seat.classList.add("low");
-						}
-						container.appendChild(seat);
-					}
-				}
-
-				function openMultiBookingModal(trains) {
-					const trainListHtml = trains
-						.map((t) => `<li>${t.name}</li>`)
-						.join("");
-
-					const bodyHtml = `
-                <p>You are about to book tickets for the following ${trains.length} train(s):</p>
-                <ul style="text-align: left; list-style-position: inside; margin: 1rem 0;">${trainListHtml}</ul>
-                <form id="ticketBookingForm" style="text-align: left; margin-top: 1rem;">
-                    <div class="form-group"><label for="passengerName">Passenger Name</label><input type="text" id="passengerName" class="form-control" required></div>
-                    <div class="form-group"><label for="passengerAge">Age</label><input type="number" id="passengerAge" class="form-control" required></div>
-                </form>`;
-
-					showModal({
-						icon: '<i class="fas fa-ticket-alt info"></i>',
-						title: `Book ${trains.length} Ticket(s)`,
-						body: bodyHtml,
-						actions: [
-							{ text: "Cancel", class: "btn-secondary" },
-							{
-								text: "Confirm Booking",
-								class: "btn-primary",
-								callback: () => {
-									const name = document.getElementById("passengerName").value;
-									if (!name) {
-										showNotification(
-											"Please enter a passenger name.",
-											"warning"
-										);
-										return false; // Prevent modal close
-									}
-									const pnr = `PNR${
-										Math.floor(Math.random() * 900000) + 100000
-									}`;
-									showNotification(
-										`Booking successful for ${name}! ${trains.length} ticket(s) booked. Your primary PNR is ${pnr}.`,
-										"success"
-									);
-								},
-							},
-						],
-					});
-				}
-
-				// --- FACE RECOGNITION ---
-				const faceScanBtn = document.getElementById("faceScanBtn");
-				faceScanBtn.addEventListener("click", async () => {
-					showModal({
-						icon: '<i class="fas fa-camera info"></i>',
-						title: "Camera Access",
-						body: "Please allow camera access to proceed with face recognition.",
-						actions: [
-							{ text: "Proceed", class: "btn-primary", callback: initFaceScan },
-						],
-					});
-				});
-
-				async function initFaceScan() {
-					try {
-						currentCameraStream = await navigator.mediaDevices.getUserMedia({
-							video: true,
-						});
-						const videoEl = document.createElement("video");
-						videoEl.srcObject = currentCameraStream;
-						videoEl.autoplay = true;
-						videoEl.id = "cameraFeed";
-
-						showModal({
-							icon: '<i class="fas fa-spinner fa-spin info"></i>',
-							title: "Scanning...",
-							body: "<p>Please look at the camera.</p>",
-							actions: [],
-							onclose: () => {
-								if (currentCameraStream) {
-									currentCameraStream
-										.getTracks()
-										.forEach((track) => track.stop());
-									currentCameraStream = null;
-								}
-							},
-						});
-						document.getElementById("modalBody").appendChild(videoEl);
-
-						// Simulate scan duration
-						setTimeout(() => {
-							const success = Math.random() > 0.3;
-							if (success) {
-								showNotification(
-									"Validation Successful! Ticket PNR 876...543 is validated.",
-									"success"
-								);
-							} else {
-								showNotification(
-									"Validation Failed. Face not recognized.",
-									"warning"
-								);
-							}
-						}, 3000);
-					} catch (err) {
-						console.error("Camera error:", err);
-						showNotification(
-							"Could not access the camera. Please check permissions.",
-							"warning"
-						);
-					}
-				}
-
-				// --- Other Form Submissions ---
-				function handleFormSubmit(formId, successMessage) {
+				// --- FORM & CHAT LOGIC ---
+				function handleFormSubmit(formId, messageGenerator) {
 					const form = document.getElementById(formId);
 					if (form) {
 						form.addEventListener("submit", (e) => {
 							e.preventDefault();
-							showNotification(successMessage, "success");
-							form.reset();
+							if (currentUser) {
+								const { text, imageUrl, successMessage } =
+									messageGenerator(form);
+								const messageData = {
+									user: currentUser.username,
+									sender: "user",
+									text,
+								};
+								if (imageUrl) {
+									const reader = new FileReader();
+									reader.onload = (event) => {
+										messageData.imageUrl = event.target.result;
+										socket.emit("sendMessage", messageData);
+									};
+									reader.readAsDataURL(imageUrl);
+								} else {
+									socket.emit("sendMessage", messageData);
+								}
+								showNotification(successMessage, "success");
+								form.reset();
+							}
 						});
 					}
 				}
-				handleFormSubmit(
-					"alarmForm",
-					"Wake-up alarm has been set successfully."
-				);
 
-				// --- Specific Handlers for All Feedback/Complaint Forms ---
+				handleFormSubmit("userFeedbackForm", (form) => ({
+					text: `FEEDBACK: ${
+						form.querySelector("#userFeedbackInput").value.trim() ||
+						"See attached image."
+					}`,
+					imageUrl: form.querySelector("#feedbackImageUpload").files[0],
+					successMessage: "Your feedback has been sent.",
+				}));
+				handleFormSubmit("complaintForm", (form) => ({
+					text: `HYGIENE COMPLAINT: ${
+						form.querySelector("#complaintType").value
+					} in coach ${form.querySelector("#coachNumber").value}.`,
+					successMessage: "Your complaint has been submitted.",
+				}));
+				handleFormSubmit("overpricingForm", (form) => ({
+					text: `OVERPRICING REPORT: ${form
+						.querySelector("#overpricingDesc")
+						.value.trim()}`,
+					imageUrl: form.querySelector("#overpricingImage").files[0],
+					successMessage: "Your overpricing report has been submitted.",
+				}));
+				handleFormSubmit("refundForm", (form) => ({
+					text: `REFUND REQUEST: For PNR ${
+						form.querySelector("#pnrNumber").value
+					} due to stale food.`,
+					successMessage: "Your refund request has been submitted.",
+				}));
+				handleFormSubmit("suspicionForm", (form) => ({
+					text: `SUSPICIOUS ACTIVITY: ${form
+						.querySelector("#activityDesc")
+						.value.trim()}`,
+					successMessage:
+						"Your report has been sent. Thank you for your vigilance.",
+				}));
 
-				// General Feedback Form (Feedback Page)
-				const userFeedbackForm = document.getElementById("userFeedbackForm");
-				if (userFeedbackForm) {
-					userFeedbackForm.addEventListener("submit", (e) => {
-						e.preventDefault();
-						const feedbackText = document
-							.getElementById("userFeedbackInput")
-							.value.trim();
-						const imageFile = document.getElementById("feedbackImageUpload")
-							.files[0];
-
-						if (!feedbackText && !imageFile) {
-							showNotification(
-								"Please enter a message or upload an image.",
-								"warning"
-							);
-							return;
-						}
-
-						const messageData = {
-							user: currentUser.username,
-							sender: "user",
-							text: `FEEDBACK: ${feedbackText || "See attached image."}`,
-						};
-
-						if (imageFile) {
-							const reader = new FileReader();
-							reader.onload = (event) => {
-								messageData.imageUrl = event.target.result;
-								socket.emit("sendMessage", messageData);
-							};
-							reader.readAsDataURL(imageFile);
-						} else {
-							socket.emit("sendMessage", messageData);
-						}
-						showNotification("Your feedback has been sent.", "success");
-						userFeedbackForm.reset();
-					});
-				}
-
-				// Hygiene Complaint Form (Hygiene Page)
-				const complaintForm = document.getElementById("complaintForm");
-				if (complaintForm) {
-					complaintForm.addEventListener("submit", (e) => {
-						e.preventDefault();
-						const complaintType =
-							document.getElementById("complaintType").value;
-						const coachNumber = document.getElementById("coachNumber").value;
-						if (coachNumber && currentUser) {
-							const text = `HYGIENE COMPLAINT: ${complaintType} in coach ${coachNumber}.`;
-							socket.emit("sendMessage", {
-								user: currentUser.username,
-								sender: "user",
-								text: text,
-							});
-							showNotification("Your complaint has been submitted.", "success");
-							complaintForm.reset();
-						}
-					});
-				}
-
-				// Water Refill Request (Hygiene Page)
 				const requestRefillBtn = document.getElementById("requestRefillBtn");
 				if (requestRefillBtn) {
 					requestRefillBtn.addEventListener("click", () => {
@@ -2410,85 +1823,6 @@
 					});
 				}
 
-				// Overpricing Report Form (Food Page)
-				const overpricingForm = document.getElementById("overpricingForm");
-				if (overpricingForm) {
-					overpricingForm.addEventListener("submit", (e) => {
-						e.preventDefault();
-						const desc = document
-							.getElementById("overpricingDesc")
-							.value.trim();
-						const imageFile =
-							document.getElementById("overpricingImage").files[0];
-
-						const messageData = {
-							user: currentUser.username,
-							sender: "user",
-							text: `OVERPRICING REPORT: ${desc}`,
-						};
-
-						const reader = new FileReader();
-						reader.onload = (event) => {
-							messageData.imageUrl = event.target.result;
-							socket.emit("sendMessage", messageData);
-						};
-						reader.readAsDataURL(imageFile);
-
-						showNotification(
-							"Your overpricing report has been submitted.",
-							"success"
-						);
-						overpricingForm.reset();
-					});
-				}
-
-				// Stale Food Refund Form (Food Page)
-				const refundForm = document.getElementById("refundForm");
-				if (refundForm) {
-					refundForm.addEventListener("submit", (e) => {
-						e.preventDefault();
-						const pnr = document.getElementById("pnrNumber").value;
-						if (pnr && currentUser) {
-							const text = `REFUND REQUEST: For PNR ${pnr} due to stale food.`;
-							socket.emit("sendMessage", {
-								user: currentUser.username,
-								sender: "user",
-								text: text,
-							});
-							showNotification(
-								"Your refund request has been submitted.",
-								"success"
-							);
-							refundForm.reset();
-						}
-					});
-				}
-
-				// Suspicious Activity Form (Safety Page)
-				const suspicionForm = document.getElementById("suspicionForm");
-				if (suspicionForm) {
-					suspicionForm.addEventListener("submit", (e) => {
-						e.preventDefault();
-						const reportText = document
-							.getElementById("activityDesc")
-							.value.trim();
-						if (reportText && currentUser) {
-							const text = `SUSPICIOUS ACTIVITY: ${reportText}`;
-							socket.emit("sendMessage", {
-								user: currentUser.username,
-								sender: "user",
-								text: text,
-							});
-							showNotification(
-								"Your report has been sent. Thank you for your vigilance.",
-								"success"
-							);
-							suspicionForm.reset();
-						}
-					});
-				}
-
-				// --- ADMIN CHAT & USER FEEDBACK (REAL-TIME) ---
 				const conversationsList = document.getElementById("conversationsList");
 				const chatMessages = document.getElementById("chatMessages");
 				const chatInputArea = document.getElementById("chatInputArea");
@@ -2496,27 +1830,2041 @@
 				const sendReplyBtn = document.getElementById("sendReplyBtn");
 				const noConvoSelected = document.getElementById("no-convo-selected");
 
-				// --- Listen for Admin Replies ---
 				socket.on("newMessage", (data) => {
-					// Check if the message is for the currently logged-in user
-					// and if the last message was from the admin.
 					if (
 						currentUser &&
 						data.user === currentUser.username &&
 						data.messages.length > 0
 					) {
 						const lastMessage = data.messages[data.messages.length - 1];
-						if (lastMessage.sender === "admin") {
+						if (lastMessage.sender === "admin")
 							showNotification(
 								`New message from Admin: "${lastMessage.text}"`,
 								"info"
 							);
-						}
+					}
+					messageDatabase[data.convoId] = {
+						user: data.user,
+						messages: data.messages,
+					};
+					if (currentUser && currentUser.role === "admin") {
+						loadConversations();
+						if (activeConversationId === data.convoId)
+							loadMessages(data.convoId);
 					}
 				});
 
+				async function fetchAndLoadMessages() {
+					try {
+						const response = await fetch("/api/messages");
+						if (response.ok) {
+							messageDatabase = await response.json();
+							loadConversations();
+						}
+					} catch (error) {
+						console.error("Failed to fetch messages:", error);
+					}
+				}
+
+				function loadConversations() {
+					if (!conversationsList) return;
+					conversationsList.innerHTML = "";
+					Object.keys(messageDatabase).forEach((convoId) => {
+						const convo = messageDatabase[convoId];
+						if (!convo.messages || convo.messages.length === 0) return;
+						const lastMessage = convo.messages[convo.messages.length - 1];
+						const convoDiv = document.createElement("div");
+						let icon = "fa-comment-dots";
+						if (lastMessage.text.startsWith("HYGIENE")) icon = "fa-broom";
+						if (lastMessage.text.startsWith("OVERPRICING"))
+							icon = "fa-rupee-sign";
+						if (lastMessage.text.startsWith("REFUND")) icon = "fa-undo";
+						if (lastMessage.text.startsWith("WATER REFILL")) icon = "fa-tint";
+						if (lastMessage.text.startsWith("SUSPICIOUS"))
+							icon = "fa-exclamation-triangle";
+						convoDiv.className = "conversation";
+						convoDiv.dataset.convoId = convoId;
+						convoDiv.innerHTML = `<div style="display: flex; align-items: center; gap: 10px;"><i class="fas ${icon}" style="color: var(--primary-color);"></i><div><h4>${
+							convo.user
+						}</h4><p>${lastMessage.text.substring(0, 30)}${
+							lastMessage.text.length > 30 ? "..." : ""
+						}</p></div></div>`;
+						convoDiv.addEventListener("click", () => loadMessages(convoId));
+						conversationsList.appendChild(convoDiv);
+					});
+				}
+
+				function loadMessages(convoId) {
+					activeConversationId = convoId;
+					const conversation = messageDatabase[convoId];
+					chatMessages.innerHTML = "";
+					noConvoSelected.classList.add("hidden");
+					conversation.messages.forEach((msg) => {
+						const bubble = document.createElement("div");
+						const timestamp = new Date(msg.timestamp).toLocaleTimeString([], {
+							hour: "2-digit",
+							minute: "2-digit",
+						});
+						bubble.className = `message-bubble ${msg.sender}`;
+						bubble.innerHTML = `${msg.text} ${
+							msg.imageUrl
+								? `<br><a href="${msg.imageUrl}" target="_blank"><img src="${msg.imageUrl}" alt="User Upload" style="max-width: 200px; border-radius: 8px; margin-top: 8px;"></a>`
+								: ""
+						}<div style="font-size: 0.75rem; text-align: right; opacity: 0.7; margin-top: 5px;">${timestamp}</div>`;
+						chatMessages.appendChild(bubble);
+					});
+					document
+						.querySelectorAll(".conversation")
+						.forEach((c) => c.classList.remove("active"));
+					document
+						.querySelector(`.conversation[data-convo-id="${convoId}"]`)
+						.classList.add("active");
+					chatInputArea.classList.remove("hidden");
+					chatMessages.scrollTop = chatMessages.scrollHeight;
+				}
+
+				function sendAdminReply() {
+					const replyText = adminReplyInput.value.trim();
+					if (replyText && activeConversationId) {
+						socket.emit("sendMessage", {
+							convoId: activeConversationId,
+							user: messageDatabase[activeConversationId].user,
+							sender: "admin",
+							text: replyText,
+						});
+						adminReplyInput.value = "";
+					}
+				}
+
+				if (sendReplyBtn) {
+					sendReplyBtn.addEventListener("click", sendAdminReply);
+					adminReplyInput.addEventListener("keyup", (e) => {
+						if (e.key === "Enter") sendAdminReply();
+					});
+				}
+
 				// --- INITIALIZE APP ---
-				checkLoginStatus(); // Check if user is already logged in on page load
+				checkLoginStatus();
+			});
+		</script>
+	</body>
+</html>
+```<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>RailGuard</title>
+		<link
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+			rel="stylesheet"
+		/>
+		<style>
+			/* General Styles */
+			:root {
+				--primary-color: #1a365d;
+				--secondary-color: #2d4a63;
+				--accent-color: #e53e3e;
+				--gold-color: #d4af37;
+				--light-blue: #ebf8ff;
+				--white: #ffffff;
+				--light-gray: #f7fafc;
+				--text-dark: #2d3748;
+				--text-light: #718096;
+				--success: #38a169;
+				--available: #48bb78;
+				--occupied: #f56565;
+				--cleaning: #4299e1;
+				--shadow-light: rgba(0, 0, 0, 0.05);
+				--shadow-medium: rgba(0, 0, 0, 0.1);
+				--border-radius: 12px;
+				--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+					Roboto, sans-serif;
+				line-height: 1.6;
+				color: var(--text-dark);
+				background: var(--light-gray);
+				overflow-x: hidden;
+			}
+
+			/* Login & Sign Up Page */
+			.login-page,
+			.signup-page {
+				min-height: 100vh;
+				background-image: url("rail background.jpg");
+				background-size: cover;
+				background-position: center;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+			}
+
+			.login-page.active,
+			.signup-page.active {
+				display: flex;
+			}
+
+			.login-page::before,
+			.signup-page::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: rgba(26, 54, 93, 0.7);
+			}
+
+			.login-container {
+				background: rgba(255, 255, 255, 0.95);
+				backdrop-filter: blur(15px);
+				padding: 3rem 2.5rem;
+				border-radius: 20px;
+				box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+				width: 100%;
+				max-width: 420px;
+				text-align: center;
+				position: relative;
+				z-index: 10;
+			}
+
+			.login-header .logo {
+				width: 80px;
+				height: 80px;
+				background: linear-gradient(135deg, #1a365d 0%, #2d4a63 100%);
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin: 0 auto 1rem;
+				box-shadow: 0 8px 25px rgba(26, 54, 93, 0.3);
+			}
+
+			.login-header .logo i {
+				font-size: 2rem;
+				color: var(--white);
+			}
+
+			.login-header h1 {
+				font-size: 1.75rem;
+				color: var(--primary-color);
+				margin-bottom: 0.5rem;
+			}
+			.login-header p {
+				color: var(--text-light);
+			}
+
+			.input-group {
+				position: relative;
+			}
+			.input-group i {
+				position: absolute;
+				left: 1rem;
+				top: 50%;
+				transform: translateY(-50%);
+				color: var(--text-light);
+			}
+
+			.login-input {
+				width: 100%;
+				padding: 1rem 1rem 1rem 2.8rem;
+				border: 2px solid transparent;
+				background: var(--light-gray);
+				border-radius: var(--border-radius);
+				font-size: 1rem;
+				transition: var(--transition);
+				outline: none;
+			}
+			.login-input:focus {
+				background: var(--white);
+				border-color: var(--primary-color);
+				box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+			}
+			.login-input:focus + i {
+				color: var(--primary-color);
+			}
+
+			.login-button {
+				background: linear-gradient(135deg, #1a365d 0%, #2d4a63 100%);
+				color: var(--white);
+				padding: 1rem;
+				border: none;
+				border-radius: var(--border-radius);
+				font-size: 1rem;
+				font-weight: 600;
+				cursor: pointer;
+				transition: var(--transition);
+				position: relative;
+				overflow: hidden;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 0.5rem;
+			}
+			.login-button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 8px 25px rgba(26, 54, 93, 0.3);
+			}
+			.login-button:disabled {
+				cursor: not-allowed;
+				background: var(--secondary-color);
+			}
+
+			.login-footer {
+				margin-top: 1.5rem;
+				color: var(--text-light);
+			}
+			.login-footer a {
+				color: var(--primary-color);
+				font-weight: 600;
+				text-decoration: none;
+			}
+
+			/* Home Page & General Page Styles */
+			.home-page,
+			.page-view,
+			#adminDashboardPage {
+				display: none;
+				flex-direction: column;
+				min-height: 100vh;
+				animation: fadeIn 0.5s ease-out;
+			}
+			.home-page.active,
+			.page-view.active,
+			#adminDashboardPage.active {
+				display: flex;
+			}
+
+			.navbar {
+				background: var(--white);
+				padding: 1rem 0;
+				box-shadow: 0 2px 20px var(--shadow-light);
+				position: sticky;
+				top: 0;
+				z-index: 1000;
+			}
+
+			.nav-container,
+			.section-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+			.nav-container {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.nav-brand {
+				display: flex;
+				align-items: center;
+				gap: 1rem;
+			}
+			.nav-brand .brand-icon {
+				width: 50px;
+				height: 50px;
+				background: linear-gradient(135deg, #1a365d 0%, #2d4a63 100%);
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: var(--white);
+				font-size: 1.5rem;
+			}
+			.nav-brand h1 {
+				font-size: 1.5rem;
+				color: var(--primary-color);
+			}
+			.nav-actions {
+				display: flex;
+				gap: 1rem;
+				align-items: center;
+			}
+			.user-info {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				color: var(--text-light);
+			}
+
+			.logout-btn {
+				background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
+				color: var(--white);
+				padding: 0.5rem 1rem;
+				border: none;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: var(--transition);
+			}
+			.logout-btn:hover {
+				box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+			}
+
+			/* Hero Section */
+			.hero-section {
+				background: linear-gradient(135deg, #1a365d 0%, #2d4a63 100%);
+				color: var(--white);
+				padding: 4rem 0;
+				text-align: center;
+			}
+			.hero-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+			.hero-title {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+			}
+			.hero-subtitle {
+				font-size: 1.25rem;
+				opacity: 0.9;
+				margin: 0 auto 2rem;
+				max-width: 600px;
+			}
+			.hero-stats {
+				display: flex;
+				justify-content: center;
+				gap: 3rem;
+				margin-top: 3rem;
+				flex-wrap: wrap;
+			}
+			.stat-item {
+				text-align: center;
+			}
+			.stat-number {
+				font-size: 2rem;
+				font-weight: 700;
+				color: var(--gold-color);
+			}
+			.stat-label {
+				font-size: 0.9rem;
+				opacity: 0.8;
+			}
+
+			/* Services & Sections */
+			.services-section {
+				padding: 4rem 0;
+			}
+			.section-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+			.section-title {
+				font-size: 2.5rem;
+				color: var(--primary-color);
+				margin-bottom: 1rem;
+			}
+			.section-subtitle {
+				font-size: 1.1rem;
+				color: var(--text-light);
+				max-width: 600px;
+				margin: 0 auto;
+			}
+
+			.services-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+				gap: 2rem;
+			}
+
+			.service-card {
+				background: var(--white);
+				padding: 2rem;
+				border-radius: 16px;
+				box-shadow: 0 4px 20px var(--shadow-light);
+				transition: var(--transition);
+				cursor: pointer;
+				border: 1px solid rgba(26, 54, 93, 0.05);
+				position: relative;
+				overflow: hidden;
+			}
+			.service-card:hover {
+				transform: translateY(-8px);
+				box-shadow: 0 12px 40px var(--shadow-medium);
+			}
+			.service-card::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 4px;
+				background: linear-gradient(135deg, #1a365d 0%, #2d4a63 100%);
+				transform: scaleX(0);
+				transition: var(--transition);
+			}
+			.service-card:hover::before {
+				transform: scaleX(1);
+			}
+			.service-icon {
+				width: 70px;
+				height: 70px;
+				background: var(--light-blue);
+				border-radius: 16px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 1.5rem;
+				transition: var(--transition);
+			}
+			.service-icon i {
+				font-size: 1.8rem;
+				color: var(--primary-color);
+			}
+			.service-card:hover .service-icon {
+				background: var(--primary-color);
+			}
+			.service-card:hover .service-icon i {
+				color: var(--white);
+			}
+			.service-title {
+				font-size: 1.3rem;
+				color: var(--primary-color);
+				margin-bottom: 1rem;
+			}
+			.service-description {
+				color: var(--text-light);
+				margin-bottom: 1.5rem;
+			}
+			.service-link {
+				color: var(--primary-color);
+				text-decoration: none;
+				font-weight: 600;
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				transition: var(--transition);
+			}
+			.service-link i {
+				transition: var(--transition);
+			}
+			.service-card:hover .service-link i {
+				transform: translateX(5px);
+			}
+
+			/* Footer */
+			.footer {
+				background: var(--primary-color);
+				color: var(--white);
+				padding: 3rem 0 1rem;
+				text-align: center;
+				margin-top: auto;
+			}
+			.footer-content {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 2rem;
+			}
+
+			/* Inner Page View Styles */
+			.page-header {
+				display: flex;
+				align-items: center;
+				gap: 1.5rem;
+				margin-bottom: 2rem;
+				padding-bottom: 1.5rem;
+				border-bottom: 1px solid #e2e8f0;
+			}
+			.back-btn {
+				background: var(--light-gray);
+				border: 1px solid #e2e8f0;
+				color: var(--text-dark);
+				width: 44px;
+				height: 44px;
+				border-radius: 50%;
+				cursor: pointer;
+				transition: var(--transition);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 1.2rem;
+				flex-shrink: 0;
+			}
+			.back-btn:hover {
+				background: #e2e8f0;
+			}
+			.page-header h2 {
+				font-size: 2rem;
+				color: var(--primary-color);
+			}
+
+			.content-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+				gap: 2rem;
+			}
+			.content-card {
+				background: var(--white);
+				border-radius: var(--border-radius);
+				padding: 1.5rem;
+				box-shadow: 0 4px 20px var(--shadow-light);
+			}
+			.content-card h3 {
+				font-size: 1.25rem;
+				margin-bottom: 1rem;
+				color: var(--secondary-color);
+				padding-bottom: 0.75rem;
+				border-bottom: 1px solid #e2e8f0;
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+			}
+
+			/* Hygiene Page Specifics */
+			.toilet-status-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+				gap: 1rem;
+				margin-top: 1rem;
+			}
+			.toilet-card {
+				padding: 1rem;
+				border-radius: var(--border-radius);
+				text-align: center;
+				border: 1px solid #e2e8f0;
+			}
+			.toilet-card .status-dot {
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				display: inline-block;
+				margin-left: 0.5rem;
+			}
+			.status-dot.available {
+				background: var(--available);
+			}
+			.status-dot.occupied {
+				background: var(--occupied);
+			}
+			.status-dot.cleaning {
+				background: var(--cleaning);
+			}
+
+			/* Ticketing Page Specifics */
+			.train-search-form .form-group {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 1rem;
+			}
+			.train-search-form .full-width {
+				grid-column: 1 / -1;
+			}
+
+			/* Safety Page Specifics */
+			.sos-button {
+				background: var(--accent-color);
+				color: var(--white);
+				border: none;
+				width: 150px;
+				height: 150px;
+				border-radius: 50%;
+				font-size: 1.5rem;
+				font-weight: bold;
+				cursor: pointer;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				margin: 2rem auto;
+				box-shadow: 0 0 0 0 rgba(229, 62, 62, 1);
+				animation: pulse 2s infinite;
+			}
+			@keyframes pulse {
+				0% {
+					box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7);
+				}
+				70% {
+					box-shadow: 0 0 0 20px rgba(229, 62, 62, 0);
+				}
+				100% {
+					box-shadow: 0 0 0 0 rgba(229, 62, 62, 0);
+				}
+			}
+			.sos-button i {
+				font-size: 3rem;
+				margin-bottom: 0.5rem;
+			}
+
+			/* Utility & Form Classes */
+			.hidden {
+				display: none !important;
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+			.form-group {
+				margin-bottom: 1rem;
+			}
+			.form-group label {
+				display: block;
+				margin-bottom: 0.5rem;
+				font-weight: 600;
+			}
+			.form-control {
+				width: 100%;
+				padding: 0.75rem;
+				border: 1px solid #cbd5e0;
+				border-radius: 8px;
+				font-size: 1rem;
+			}
+			.btn {
+				padding: 0.75rem 1.5rem;
+				border-radius: 8px;
+				border: none;
+				cursor: pointer;
+				font-weight: 600;
+				transition: var(--transition);
+			}
+			.btn-primary {
+				background: var(--primary-color);
+				color: var(--white);
+			}
+			.btn-primary:hover {
+				background: var(--secondary-color);
+			}
+
+			/* Custom Modal */
+			.modal-overlay {
+				position: fixed;
+				inset: 0;
+				background: rgba(0, 0, 0, 0.6);
+				backdrop-filter: blur(5px);
+				display: none;
+				align-items: center;
+				justify-content: center;
+				z-index: 2000;
+				opacity: 0;
+				transition: opacity 0.3s;
+			}
+			.modal-overlay.active {
+				display: flex;
+				opacity: 1;
+			}
+			.modal-content {
+				background: var(--white);
+				padding: 2rem;
+				border-radius: var(--border-radius);
+				width: 90%;
+				max-width: 450px;
+				text-align: center;
+				transform: scale(0.9);
+				transition: transform 0.3s;
+			}
+			.modal-overlay.active .modal-content {
+				transform: scale(1);
+			}
+			.modal-icon {
+				font-size: 3rem;
+				margin-bottom: 1rem;
+			}
+			.modal-icon .success {
+				color: var(--success);
+			}
+			.modal-icon .warning {
+				color: #f59e0b;
+			}
+			.modal-icon .info {
+				color: #3b82f6;
+			}
+			.modal-title {
+				font-size: 1.5rem;
+				margin-bottom: 0.5rem;
+			}
+			.modal-body {
+				color: var(--text-light);
+				margin-bottom: 1.5rem;
+			}
+			.modal-actions {
+				display: flex;
+				justify-content: center;
+				gap: 1rem;
+			}
+			.btn-secondary {
+				background-color: #e2e8f0;
+				color: var(--text-dark);
+			}
+			.btn-danger {
+				background: var(--accent-color);
+				color: var(--white);
+			}
+			.loading {
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				border: 3px solid rgba(255, 255, 255, 0.3);
+				border-radius: 50%;
+				border-top-color: #fff;
+				animation: spin 1s ease-in-out infinite;
+			}
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+
+			/* Admin Chat UI Styles */
+			.chat-container {
+				display: flex;
+				height: 75vh;
+				background: var(--white);
+				border-radius: var(--border-radius);
+				box-shadow: 0 4px 20px var(--shadow-light);
+				overflow: hidden;
+			}
+			.conversations-list {
+				width: 30%;
+				border-right: 1px solid #e2e8f0;
+				overflow-y: auto;
+			}
+			.conversation {
+				padding: 1rem;
+				cursor: pointer;
+				border-bottom: 1px solid #e2e8f0;
+				transition: var(--transition);
+			}
+			.conversation:hover {
+				background: var(--light-gray);
+			}
+			.conversation.active {
+				background: var(--light-blue);
+				border-right: 3px solid var(--primary-color);
+			}
+			.conversation h4 {
+				font-size: 1rem;
+			}
+			.conversation p {
+				font-size: 0.85rem;
+				color: var(--text-light);
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.chat-window {
+				width: 70%;
+				display: flex;
+				flex-direction: column;
+			}
+			.chat-messages {
+				flex-grow: 1;
+				padding: 1.5rem;
+				overflow-y: auto;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+			.message-bubble {
+				padding: 0.75rem 1rem;
+				border-radius: 18px;
+				max-width: 70%;
+				line-height: 1.4;
+			}
+			.message-bubble.user {
+				background: #e2e8f0;
+				color: var(--text-dark);
+				border-bottom-left-radius: 4px;
+				align-self: flex-start;
+			}
+			.message-bubble.admin {
+				background: var(--primary-color);
+				color: var(--white);
+				border-bottom-right-radius: 4px;
+				align-self: flex-end;
+			}
+			.chat-input {
+				padding: 1rem;
+				border-top: 1px solid #e2e8f0;
+				display: flex;
+				gap: 1rem;
+			}
+			#no-convo-selected {
+				text-align: center;
+				padding: 4rem;
+				color: var(--text-light);
+			}
+
+			/* Responsive Design */
+			@media (max-width: 768px) {
+				.hero-title {
+					font-size: 2rem;
+				}
+				.hero-stats {
+					flex-direction: column;
+					gap: 1.5rem;
+				}
+				.services-grid {
+					grid-template-columns: 1fr;
+				}
+				.nav-container,
+				.section-container {
+					padding: 0 1rem;
+				}
+				.nav-brand h1 {
+					display: none;
+				}
+				.train-search-form .form-group {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Login Page -->
+		<div id="loginPage" class="login-page active">
+			<div class="login-container">
+				<div class="login-header">
+					<div class="logo"><i class="fas fa-train"></i></div>
+					<h1>RailGuard</h1>
+					<p>Sign in to continue</p>
+				</div>
+				<form id="loginForm" class="login-form">
+					<div class="input-group" style="margin-bottom: 1rem">
+						<input
+							type="text"
+							id="username"
+							class="login-input"
+							placeholder="Username"
+							required
+						/>
+						<i class="fas fa-user"></i>
+					</div>
+					<div class="input-group" style="margin-bottom: 1.5rem">
+						<input
+							type="password"
+							id="password"
+							class="login-input"
+							placeholder="Password"
+							required
+						/>
+						<i class="fas fa-lock"></i>
+					</div>
+					<button type="submit" class="login-button" style="width: 100%">
+						<span class="button-text">Sign In</span>
+						<span class="loading hidden"></span>
+					</button>
+				</form>
+				<div class="login-footer">
+					<p>Don't have an account? <a href="#" id="showSignUp">Sign Up</a></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Sign Up Page -->
+		<div id="signUpPage" class="signup-page">
+			<div class="login-container">
+				<div class="login-header">
+					<h1>Create Account</h1>
+					<p>Join RailGuard today!</p>
+				</div>
+				<form id="signUpForm" class="login-form">
+					<div class="input-group" style="margin-bottom: 1rem">
+						<input
+							type="text"
+							id="newUsername"
+							class="login-input"
+							placeholder="Username"
+							required
+						/><i class="fas fa-user"></i>
+					</div>
+					<div class="input-group" style="margin-bottom: 1rem">
+						<input
+							type="password"
+							id="newPassword"
+							class="login-input"
+							placeholder="Password"
+							required
+						/><i class="fas fa-lock"></i>
+					</div>
+					<div class="input-group" style="margin-bottom: 1.5rem">
+						<input
+							type="password"
+							id="confirmPassword"
+							class="login-input"
+							placeholder="Confirm Password"
+							required
+						/><i class="fas fa-check-circle"></i>
+					</div>
+					<button type="submit" class="login-button" style="width: 100%">
+						Sign Up
+					</button>
+				</form>
+				<div class="login-footer">
+					<p>Already have an account? <a href="#" id="showLogin">Sign In</a></p>
+				</div>
+			</div>
+		</div>
+
+		<!-- Home Page -->
+		<div id="homePage" class="home-page">
+			<nav class="navbar">
+				<div class="nav-container">
+					<div class="nav-brand">
+						<div class="brand-icon"><i class="fas fa-train"></i></div>
+						<h1>RailGuard</h1>
+					</div>
+					<div class="nav-actions">
+						<div class="user-info">
+							<i class="fas fa-user-circle"></i
+							><span id="welcomeUser">Welcome, User</span>
+						</div>
+						<button class="logout-btn" id="logoutBtn">
+							<i class="fas fa-sign-out-alt"></i> Logout
+						</button>
+					</div>
+				</div>
+			</nav>
+			<section class="hero-section">
+				<div class="hero-container">
+					<h1 class="hero-title">Welcome to RailGuard</h1>
+					<p class="hero-subtitle">
+						Streamlined operations, enhanced passenger experience, and
+						comprehensive management solutions for India's railway network
+					</p>
+					<div class="hero-stats">
+						<div class="stat-item">
+							<div class="stat-number">68,000+</div>
+							<div class="stat-label">Route Kilometers</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">23M+</div>
+							<div class="stat-label">Daily Passengers</div>
+						</div>
+						<div class="stat-item">
+							<div class="stat-number">7,000+</div>
+							<div class="stat-label">Railway Stations</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="services-section">
+				<div class="section-container">
+					<div class="section-header">
+						<h2 class="section-title">Our Services</h2>
+						<p class="section-subtitle">
+							Comprehensive solutions for efficient railway operations and
+							passenger satisfaction
+						</p>
+					</div>
+					<div class="services-grid">
+						<div class="service-card" data-page="hygienePage">
+							<div class="service-icon"><i class="fas fa-broom"></i></div>
+							<h3 class="service-title">Hygiene & Cleanliness</h3>
+							<p class="service-description">
+								Monitor cleanliness standards, toilet usage, water levels, and
+								manage passenger complaints in real-time.
+							</p>
+							<span class="service-link"
+								>Manage Cleanliness <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="foodPage">
+							<div class="service-icon"><i class="fas fa-utensils"></i></div>
+							<h3 class="service-title">Food & Vendor Management</h3>
+							<p class="service-description">
+								Oversee food quality, vendor ratings, detect overpricing, and
+								monitor pantry services effectively.
+							</p>
+							<span class="service-link"
+								>Manage Vendors <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="ticketingPage">
+							<div class="service-icon"><i class="fas fa-ticket-alt"></i></div>
+							<h3 class="service-title">Ticketing & Occupancy</h3>
+							<p class="service-description">
+								Visualize coach occupancy, manage digital tickets, predict
+								delays, and handle rebooking.
+							</p>
+							<span class="service-link"
+								>Manage Tickets <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="safetyPage">
+							<div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+							<h3 class="service-title">Passenger Safety</h3>
+							<p class="service-description">
+								Access SOS alerts, report suspicious activity, and manage
+								passenger security protocols.
+							</p>
+							<span class="service-link"
+								>Safety Dashboard <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="comfortPage">
+							<div class="service-icon"><i class="fas fa-couch"></i></div>
+							<h3 class="service-title">Passenger Comfort</h3>
+							<p class="service-description">
+								Set wake-up alarms, view crowd heatmaps, and access multilingual
+								passenger guidance systems.
+							</p>
+							<span class="service-link"
+								>Enhance Comfort <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="sustainabilityPage">
+							<div class="service-icon"><i class="fas fa-leaf"></i></div>
+							<h3 class="service-title">Sustainability</h3>
+							<p class="service-description">
+								Track your Green Miles, monitor your carbon score, and travel
+								eco-friendly with Indian Railways.
+							</p>
+							<span class="service-link"
+								>Go Green <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+						<div class="service-card" data-page="feedbackPage">
+							<div class="service-icon"><i class="fas fa-comments"></i></div>
+							<h3 class="service-title">Feedback & Analytics</h3>
+							<p class="service-description">
+								Collect, analyze, and act on passenger feedback with advanced
+								sentiment analysis and reporting tools.
+							</p>
+							<span class="service-link"
+								>View Feedback <i class="fas fa-arrow-right"></i
+							></span>
+						</div>
+					</div>
+				</div>
+			</section>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Hygiene Page -->
+		<div id="hygienePage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Hygiene & Cleanliness</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card">
+						<h3><i class="fas fa-toilet"></i>Smart Toilet Status (Coach B3)</h3>
+						<div class="toilet-status-grid">
+							<div class="toilet-card">
+								Toilet 1 <span class="status-dot available"></span>
+							</div>
+							<div class="toilet-card">
+								Toilet 2 <span class="status-dot occupied"></span>
+							</div>
+							<div class="toilet-card">
+								Toilet 3 <span class="status-dot cleaning"></span>
+							</div>
+							<div class="toilet-card">
+								Toilet 4 <span class="status-dot available"></span>
+							</div>
+						</div>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-chart-bar"></i>Washroom Usage Stats</h3>
+						<p>Average wait time: <strong>3.2 mins</strong></p>
+						<p>Peak hours: <strong>8 AM, 7 PM</strong></p>
+						<p>Total daily uses: <strong>4,120</strong></p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-tint"></i>Water Refill Monitoring</h3>
+						<p>Tank 1 (B3): <strong>78%</strong></p>
+						<p id="waterTankStatus">
+							Tank 2 (B4): <strong>45% (Alert)</strong>
+						</p>
+						<button
+							id="requestRefillBtn"
+							class="btn btn-primary"
+							style="margin-top: 1rem"
+						>
+							Request Refill
+						</button>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-history"></i>Cleaning History</h3>
+						<ul style="list-style: none; margin-top: 1rem">
+							<li>Coach B3 - 10:30 AM by R. Kumar</li>
+							<li>Coach S5 - 10:15 AM by S. Devi</li>
+							<li>Platform 4 - 09:45 AM by M. Singh</li>
+						</ul>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-exclamation-circle"></i>Submit a Complaint</h3>
+						<form id="complaintForm">
+							<div class="form-group">
+								<label for="complaintType">Issue</label
+								><select id="complaintType" class="form-control">
+									<option>Dirty Seat</option>
+									<option>Fan Not Working</option>
+									<option>Light Not Working</option>
+									<option>Other</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="coachNumber">Coach Number</label
+								><input
+									type="text"
+									id="coachNumber"
+									class="form-control"
+									placeholder="e.g., B3"
+								/>
+							</div>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Food Page -->
+		<div id="foodPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Food & Vendor Management</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card">
+						<h3><i class="fas fa-star"></i>Vendor Ratings</h3>
+						<ul style="list-style: none; margin-top: 1rem">
+							<li>Comesum: 4.5/5 ★</li>
+							<li>IRCTC Catering: 4.2/5 ★</li>
+							<li>Haldiram's: 4.8/5 ★</li>
+						</ul>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-camera"></i>Report Overpricing</h3>
+						<form id="overpricingForm">
+							<div class="form-group">
+								<label for="overpricingDesc">Description (Item & Price)</label
+								><input
+									type="text"
+									id="overpricingDesc"
+									class="form-control"
+									placeholder="e.g., Water bottle for Rs. 30"
+									required
+								/>
+							</div>
+							<label for="overpricingImage">Upload Image Proof</label
+							><input
+								type="file"
+								id="overpricingImage"
+								accept="image/*"
+								class="form-control"
+								style="margin-bottom: 1rem"
+								required
+							/><button type="submit" class="btn btn-primary">Report</button>
+						</form>
+					</div>
+					<div class="content-card">
+						<h3>
+							<i class="fas fa-thermometer-half"></i>Food Temperature Monitoring
+						</h3>
+						<p>Pantry Car A1: <strong>72°C (Safe)</strong></p>
+						<p>Vendor Stall 3: <strong>45°C (Warning)</strong></p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-user-shield"></i>Smart Vendor Fraud Alerts</h3>
+						<p>
+							<strong>Alert (11:15 AM):</strong> Unlicensed vendor detected in
+							Coach S-6, Train 12901.
+						</p>
+						<p>
+							<strong>Resolved (10:30 AM):</strong> Overpricing complaint
+							against Vendor ID #452.
+						</p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-undo"></i>Stale Food Refund System</h3>
+						<form id="refundForm">
+							<div class="form-group">
+								<label for="pnrNumber">PNR Number</label
+								><input type="text" id="pnrNumber" class="form-control" />
+							</div>
+							<button type="submit" class="btn btn-primary">
+								Request Refund
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Ticketing Page -->
+		<div id="ticketingPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Ticketing & Occupancy</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card" style="grid-column: 1 / -1">
+						<h3><i class="fas fa-search"></i>Find Trains</h3>
+						<form id="trainSearchForm" class="train-search-form">
+							<div class="form-group">
+								<div>
+									<label for="fromStation">From Station</label
+									><input
+										type="text"
+										id="fromStation"
+										class="form-control"
+										list="stationList"
+										required
+										placeholder="e.g., Mumbai (CST)"
+									/>
+								</div>
+								<div>
+									<label for="toStation">To Station</label
+									><input
+										type="text"
+										id="toStation"
+										class="form-control"
+										list="stationList"
+										required
+										placeholder="e.g., Delhi (NDLS)"
+									/>
+								</div>
+							</div>
+							<div class="form-group full-width">
+								<label for="travelDate">Date of Travel</label
+								><input
+									type="date"
+									id="travelDate"
+									class="form-control"
+									required
+								/>
+							</div>
+							<button type="submit" class="btn btn-primary full-width">
+								Find Trains</button
+							><datalist id="stationList">
+								<option value="Mumbai (CST)"></option>
+								<option value="Delhi (NDLS)"></option>
+								<option value="Kolkata (HWH)"></option>
+								<option value="Chennai (MAS)"></option>
+								<option value="Bengaluru (SBC)"></option>
+							</datalist>
+						</form>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Safety Page -->
+		<div id="safetyPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Passenger Safety</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card" style="text-align: center">
+						<h3><i class="fas fa-exclamation-triangle"></i>Emergency SOS</h3>
+						<a href="tel:182" style="text-decoration: none"
+							><button class="sos-button" id="sosBtn">
+								<i class="fas fa-bell"></i><span>SOS</span>
+							</button></a
+						>
+						<p>
+							Press in case of emergency. RPF will be alerted immediately with
+							your location.
+						</p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-bullhorn"></i>Active RPF Alerts</h3>
+						<p>
+							<strong>11:05 AM:</strong> Unattended baggage reported in coach
+							S4, train 12901.
+						</p>
+						<p>
+							<strong>10:50 AM:</strong> Crowd control required at New Delhi
+							Platform 5.
+						</p>
+					</div>
+					<div class="content-card">
+						<h3>
+							<i class="fas fa-user-secret"></i>Report Suspicious Activity
+						</h3>
+						<form id="suspicionForm">
+							<div class="form-group">
+								<label for="activityDesc">Description</label
+								><textarea
+									id="activityDesc"
+									class="form-control"
+									rows="3"
+								></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary">
+								Report Anonymously
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Comfort Page -->
+		<div id="comfortPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Passenger Comfort</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card">
+						<h3><i class="fas fa-bell"></i>Set Wake-up Alarm</h3>
+						<p>Prevents passengers from missing their destination station.</p>
+						<form id="alarmForm">
+							<div class="form-group">
+								<label for="station">Destination Station</label
+								><input
+									type="text"
+									id="station"
+									class="form-control"
+									placeholder="e.g., Mumbai Central"
+								/>
+							</div>
+							<div class="form-group">
+								<label for="alarmTime">Alarm Time</label
+								><input type="time" id="alarmTime" class="form-control" />
+							</div>
+							<button type="submit" class="btn btn-primary">Set Alarm</button>
+						</form>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-bed"></i>Sleep Tracking</h3>
+						<p>Ensuring you get enough rest before your destination.</p>
+						<p style="margin-top: 1rem">
+							Destination: <strong>Mumbai Central</strong> in
+							<strong>4h 15m</strong>
+						</p>
+						<p>Recommended sleep: <strong>3h 30m</strong></p>
+						<p>
+							Wake-up alarm is set for <strong>30 mins</strong> before arrival.
+						</p>
+					</div>
+					<div class="content-card">
+						<h3>
+							<i class="fas fa-map-marked-alt"></i>Predictive Crowd Heatmaps
+						</h3>
+						<p>
+							Coming Soon: Live footfall maps for major stations to help
+							navigate crowds.
+						</p>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Sustainability Page -->
+		<div id="sustainabilityPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Sustainability & Eco-Travel</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card">
+						<h3><i class="fas fa-route"></i>Your Green Miles</h3>
+						<p
+							style="
+								font-size: 2.5rem;
+								font-weight: bold;
+								color: var(--success);
+								margin-top: 1rem;
+							"
+						>
+							1,284 Miles
+						</p>
+						<p>
+							You've earned miles by choosing eco-friendly train routes. Keep it
+							up!
+						</p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-smog"></i>Carbon Score</h3>
+						<p>
+							Your travel this month has saved approximately
+							<strong>250kg of CO2</strong> compared to car travel.
+						</p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-seedling"></i>Eco-Travel Tips</h3>
+						<ul style="list-style-position: inside; margin-top: 1rem">
+							<li>Opt for electric trains.</li>
+							<li>Pack light to reduce fuel consumption.</li>
+							<li>Carry a reusable water bottle.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Feedback Page -->
+		<div id="feedbackPage" class="page-view">
+			<div class="section-container" style="padding-top: 2rem">
+				<div class="page-header">
+					<button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+					<h2>Feedback & Analytics</h2>
+				</div>
+				<div class="content-grid">
+					<div class="content-card">
+						<h3><i class="fas fa-smile"></i>Recent Feedback</h3>
+						<p>"Cleaning in coach B2 was excellent." (Positive)</p>
+						<p>"The food from IRCTC catering was cold." (Negative)</p>
+						<p>"Train was on time, good journey." (Positive)</p>
+					</div>
+					<div class="content-card">
+						<h3><i class="fas fa-chart-pie"></i>Sentiment Analysis</h3>
+						<p>Positive: <strong>72%</strong></p>
+						<p>Neutral: <strong>15%</strong></p>
+						<p>Negative: <strong>13%</strong></p>
+					</div>
+					<div
+						class="content-card"
+						style="grid-column: 1 / -1; margin-top: 1rem"
+					>
+						<h3><i class="fas fa-paper-plane"></i>Send Feedback to Admin</h3>
+						<form id="userFeedbackForm">
+							<div class="form-group">
+								<label for="userFeedbackInput">Your Message</label
+								><textarea
+									id="userFeedbackInput"
+									class="form-control"
+									rows="3"
+									placeholder="Type your feedback here..."
+								></textarea>
+							</div>
+							<input
+								type="file"
+								id="feedbackImageUpload"
+								accept="image/*"
+								class="form-control"
+								style="margin-bottom: 1rem"
+							/><button type="submit" class="btn btn-primary">
+								Send Feedback
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Admin Dashboard Page -->
+		<div id="adminDashboardPage" class="page-view">
+			<nav class="navbar">
+				<div class="nav-container">
+					<div class="nav-brand">
+						<div class="brand-icon"><i class="fas fa-user-shield"></i></div>
+						<h1>Admin Panel</h1>
+					</div>
+					<div class="nav-actions">
+						<div class="user-info">
+							<i class="fas fa-user-circle"></i><span>Welcome, Admin</span>
+						</div>
+						<button class="logout-btn" id="adminLogoutBtn">
+							<i class="fas fa-sign-out-alt"></i> Logout
+						</button>
+					</div>
+				</div>
+			</nav>
+			<div class="section-container" style="padding-top: 2rem; flex-grow: 1">
+				<h3><i class="fas fa-headset"></i>Live Support & Alerts</h3>
+				<p style="margin-bottom: 1rem; color: var(--text-light)">
+					Select a conversation to view messages and reply.
+				</p>
+				<div class="chat-container">
+					<div class="conversations-list" id="conversationsList"></div>
+					<div class="chat-window">
+						<div class="chat-messages" id="chatMessages">
+							<p id="no-convo-selected">
+								<i class="fas fa-arrow-left"></i> Select a conversation to
+								start.
+							</p>
+						</div>
+						<div class="chat-input hidden" id="chatInputArea">
+							<input
+								type="text"
+								id="adminReplyInput"
+								class="form-control"
+								placeholder="Type your reply..."
+							/><button
+								id="sendReplyBtn"
+								class="btn btn-primary"
+								style="width: auto"
+							>
+								Send
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<footer class="footer">
+				<div class="footer-content">
+					<p>&copy; 2025 RailGuard. All rights reserved.</p>
+				</div>
+			</footer>
+		</div>
+
+		<!-- Custom Modal -->
+		<div id="customModal" class="modal-overlay">
+			<div class="modal-content">
+				<div id="modalIcon" class="modal-icon"></div>
+				<h2 id="modalTitle" class="modal-title"></h2>
+				<div id="modalBody" class="modal-body"></div>
+				<div id="modalActions" class="modal-actions"></div>
+			</div>
+		</div>
+
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				// --- ELEMENT SELECTORS ---
+				const loginForm = document.getElementById("loginForm");
+				const signUpForm = document.getElementById("signUpForm");
+				const loginPage = document.getElementById("loginPage");
+				const signUpPage = document.getElementById("signUpPage");
+				const homePage = document.getElementById("homePage");
+				const adminDashboardPage =
+					document.getElementById("adminDashboardPage");
+				const logoutBtn = document.getElementById("logoutBtn");
+				const adminLogoutBtn = document.getElementById("adminLogoutBtn");
+				const showSignUp = document.getElementById("showSignUp");
+				const showLogin = document.getElementById("showLogin");
+				const serviceCards = document.querySelectorAll(".service-card");
+				const backBtns = document.querySelectorAll(".back-btn");
+				const welcomeUser = document.getElementById("welcomeUser");
+
+				const socket = io();
+				let currentUser = null;
+				let messageDatabase = {};
+				let activeConversationId = null;
+
+				const modal = document.getElementById("customModal");
+				const modalIcon = document.getElementById("modalIcon");
+				const modalTitle = document.getElementById("modalTitle");
+				const modalBody = document.getElementById("modalBody");
+				const modalActions = document.getElementById("modalActions");
+
+				// --- MODAL FUNCTIONS ---
+				function showModal({ icon, title, body, actions }) {
+					modalIcon.innerHTML = icon || "";
+					modalTitle.textContent = title || "";
+					modalBody.innerHTML = body || "";
+					modalActions.innerHTML = "";
+
+					const closeModalHandler = () => modal.classList.remove("active");
+
+					if (actions && actions.length > 0) {
+						actions.forEach((action) => {
+							const button = document.createElement("button");
+							button.textContent = action.text;
+							button.className = `btn ${action.class}`;
+							button.onclick = () => {
+								if (action.callback) {
+									const shouldClose = action.callback();
+									if (shouldClose !== false) closeModalHandler();
+								} else {
+									closeModalHandler();
+								}
+							};
+							modalActions.appendChild(button);
+						});
+					}
+					modal.classList.add("active");
+					modal.onclick = (e) => {
+						if (e.target === modal) closeModalHandler();
+					};
+				}
+
+				function showNotification(message, type = "info") {
+					const icons = {
+						success: '<i class="fas fa-check-circle success"></i>',
+						warning: '<i class="fas fa-exclamation-triangle warning"></i>',
+						info: '<i class="fas fa-info-circle info"></i>',
+					};
+					showModal({
+						icon: icons[type],
+						title: type.charAt(0).toUpperCase() + type.slice(1),
+						body: message,
+						actions: [{ text: "OK", class: "btn-primary" }],
+					});
+				}
+
+				// --- PAGE NAVIGATION ---
+				function showPage(pageId) {
+					document
+						.querySelectorAll(
+							".login-page, .signup-page, .home-page, .page-view, #adminDashboardPage"
+						)
+						.forEach((p) => p.classList.remove("active"));
+					const targetPage = document.getElementById(pageId);
+					if (targetPage) targetPage.classList.add("active");
+					window.scrollTo(0, 0);
+				}
+
+				serviceCards.forEach((card) =>
+					card.addEventListener("click", () => showPage(card.dataset.page))
+				);
+				backBtns.forEach((btn) =>
+					btn.addEventListener("click", () =>
+						showPage(
+							currentUser.role === "admin" ? "adminDashboardPage" : "homePage"
+						)
+					)
+				);
+				showSignUp.addEventListener("click", (e) => {
+					e.preventDefault();
+					showPage("signUpPage");
+				});
+				showLogin.addEventListener("click", (e) => {
+					e.preventDefault();
+					showPage("loginPage");
+				});
+
+				// --- AUTHENTICATION ---
+				function checkLoginStatus() {
+					const loggedInUser = localStorage.getItem("railguard_user");
+					if (loggedInUser) {
+						currentUser = JSON.parse(loggedInUser);
+						if (currentUser.role === "admin") {
+							showPage("adminDashboardPage");
+							fetchAndLoadMessages();
+						} else {
+							welcomeUser.textContent = `Welcome, ${currentUser.username}`;
+							showPage("homePage");
+						}
+					} else {
+						showPage("loginPage");
+					}
+				}
+
+				loginForm.addEventListener("submit", async (e) => {
+					e.preventDefault();
+					const button = e.target.querySelector(".login-button");
+					const buttonText = button.querySelector(".button-text");
+					const loadingSpinner = button.querySelector(".loading");
+					buttonText.classList.add("hidden");
+					loadingSpinner.classList.remove("hidden");
+					button.disabled = true;
+
+					const username = document.getElementById("username").value;
+					const password = document.getElementById("password").value;
+
+					try {
+						const response = await fetch("/api/login", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ username, password }),
+						});
+						const data = await response.json();
+						if (response.ok) {
+							currentUser = data.user;
+							localStorage.setItem(
+								"railguard_user",
+								JSON.stringify(currentUser)
+							);
+							checkLoginStatus();
+							loginForm.reset();
+						} else {
+							showNotification(data.message || "Login failed.", "warning");
+						}
+					} catch (error) {
+						showNotification("Could not connect to the server.", "warning");
+					} finally {
+						buttonText.classList.remove("hidden");
+						loadingSpinner.classList.add("hidden");
+						button.disabled = false;
+					}
+				});
+
+				signUpForm.addEventListener("submit", async (e) => {
+					e.preventDefault();
+					const username = document.getElementById("newUsername").value;
+					const pass1 = document.getElementById("newPassword").value;
+					const pass2 = document.getElementById("confirmPassword").value;
+					if (pass1 !== pass2) {
+						showNotification("Passwords do not match!", "warning");
+						return;
+					}
+					try {
+						const response = await fetch("/api/signup", {
+							method: "POST",
+							headers: { "Content-Type": "application/json" },
+							body: JSON.stringify({ username, password: pass1 }),
+						});
+						const data = await response.json();
+						if (response.ok) {
+							showNotification(
+								"Sign up successful! You can now log in.",
+								"success"
+							);
+							signUpForm.reset();
+							showLogin.click();
+						} else {
+							showNotification(data.message || "Sign up failed.", "warning");
+						}
+					} catch (error) {
+						showNotification("Could not connect to the server.", "warning");
+					}
+				});
+
+				const handleLogout = () => {
+					localStorage.removeItem("railguard_user");
+					currentUser = null;
+					showPage("loginPage");
+				};
+
+				const confirmAndLogout = (message) => {
+					showModal({
+						icon: '<i class="fas fa-question-circle warning"></i>',
+						title: "Confirm Logout",
+						body: message,
+						actions: [
+							{ text: "Cancel", class: "btn-secondary" },
+							{ text: "Logout", class: "btn-danger", callback: handleLogout },
+						],
+					});
+				};
+
+				logoutBtn.addEventListener("click", () =>
+					confirmAndLogout("Are you sure you want to log out?")
+				);
+				adminLogoutBtn.addEventListener("click", () =>
+					confirmAndLogout(
+						"Are you sure you want to log out from the admin panel?"
+					)
+				);
+
+				// --- FORM & CHAT LOGIC ---
+				function handleFormSubmit(formId, messageGenerator) {
+					const form = document.getElementById(formId);
+					if (form) {
+						form.addEventListener("submit", (e) => {
+							e.preventDefault();
+							if (currentUser) {
+								const { text, imageUrl, successMessage } =
+									messageGenerator(form);
+								const messageData = {
+									user: currentUser.username,
+									sender: "user",
+									text,
+								};
+								if (imageUrl) {
+									const reader = new FileReader();
+									reader.onload = (event) => {
+										messageData.imageUrl = event.target.result;
+										socket.emit("sendMessage", messageData);
+									};
+									reader.readAsDataURL(imageUrl);
+								} else {
+									socket.emit("sendMessage", messageData);
+								}
+								showNotification(successMessage, "success");
+								form.reset();
+							}
+						});
+					}
+				}
+
+				handleFormSubmit("userFeedbackForm", (form) => ({
+					text: `FEEDBACK: ${
+						form.querySelector("#userFeedbackInput").value.trim() ||
+						"See attached image."
+					}`,
+					imageUrl: form.querySelector("#feedbackImageUpload").files[0],
+					successMessage: "Your feedback has been sent.",
+				}));
+				handleFormSubmit("complaintForm", (form) => ({
+					text: `HYGIENE COMPLAINT: ${
+						form.querySelector("#complaintType").value
+					} in coach ${form.querySelector("#coachNumber").value}.`,
+					successMessage: "Your complaint has been submitted.",
+				}));
+				handleFormSubmit("overpricingForm", (form) => ({
+					text: `OVERPRICING REPORT: ${form
+						.querySelector("#overpricingDesc")
+						.value.trim()}`,
+					imageUrl: form.querySelector("#overpricingImage").files[0],
+					successMessage: "Your overpricing report has been submitted.",
+				}));
+				handleFormSubmit("refundForm", (form) => ({
+					text: `REFUND REQUEST: For PNR ${
+						form.querySelector("#pnrNumber").value
+					} due to stale food.`,
+					successMessage: "Your refund request has been submitted.",
+				}));
+				handleFormSubmit("suspicionForm", (form) => ({
+					text: `SUSPICIOUS ACTIVITY: ${form
+						.querySelector("#activityDesc")
+						.value.trim()}`,
+					successMessage:
+						"Your report has been sent. Thank you for your vigilance.",
+				}));
+
+				const conversationsList = document.getElementById("conversationsList");
+				const chatMessages = document.getElementById("chatMessages");
+				const chatInputArea = document.getElementById("chatInputArea");
+				const adminReplyInput = document.getElementById("adminReplyInput");
+				const sendReplyBtn = document.getElementById("sendReplyBtn");
+				const noConvoSelected = document.getElementById("no-convo-selected");
+
+				socket.on("newMessage", (data) => {
+					if (
+						currentUser &&
+						data.user === currentUser.username &&
+						data.messages.length > 0
+					) {
+						const lastMessage = data.messages[data.messages.length - 1];
+						if (lastMessage.sender === "admin")
+							showNotification(
+								`New message from Admin: "${lastMessage.text}"`,
+								"info"
+							);
+					}
+					messageDatabase[data.convoId] = {
+						user: data.user,
+						messages: data.messages,
+					};
+					if (currentUser && currentUser.role === "admin") {
+						loadConversations();
+						if (activeConversationId === data.convoId)
+							loadMessages(data.convoId);
+					}
+				});
+
+				async function fetchAndLoadMessages() {
+					try {
+						const response = await fetch("/api/messages");
+						if (response.ok) {
+							messageDatabase = await response.json();
+							loadConversations();
+						}
+					} catch (error) {
+						console.error("Failed to fetch messages:", error);
+					}
+				}
+
+				function loadConversations() {
+					if (!conversationsList) return;
+					conversationsList.innerHTML = "";
+					Object.keys(messageDatabase).forEach((convoId) => {
+						const convo = messageDatabase[convoId];
+						if (!convo.messages || convo.messages.length === 0) return;
+						const lastMessage = convo.messages[convo.messages.length - 1];
+						const convoDiv = document.createElement("div");
+						convoDiv.className = "conversation";
+						convoDiv.dataset.convoId = convoId;
+						convoDiv.innerHTML = `<h4>${
+							convo.user
+						}</h4><p>${lastMessage.text.substring(0, 30)}${
+							lastMessage.text.length > 30 ? "..." : ""
+						}</p>`;
+						convoDiv.addEventListener("click", () => loadMessages(convoId));
+						conversationsList.appendChild(convoDiv);
+					});
+				}
+
+				function loadMessages(convoId) {
+					activeConversationId = convoId;
+					const conversation = messageDatabase[convoId];
+					chatMessages.innerHTML = "";
+					noConvoSelected.classList.add("hidden");
+					conversation.messages.forEach((msg) => {
+						const bubble = document.createElement("div");
+						const timestamp = new Date(msg.timestamp).toLocaleTimeString([], {
+							hour: "2-digit",
+							minute: "2-digit",
+						});
+						bubble.className = `message-bubble ${msg.sender}`;
+						bubble.innerHTML = `${msg.text} ${
+							msg.imageUrl
+								? `<br><a href="${msg.imageUrl}" target="_blank"><img src="${msg.imageUrl}" alt="User Upload" style="max-width: 200px; border-radius: 8px; margin-top: 8px;"></a>`
+								: ""
+						}<div style="font-size: 0.75rem; text-align: right; opacity: 0.7; margin-top: 5px;">${timestamp}</div>`;
+						chatMessages.appendChild(bubble);
+					});
+					document
+						.querySelectorAll(".conversation")
+						.forEach((c) => c.classList.remove("active"));
+					document
+						.querySelector(`.conversation[data-convo-id="${convoId}"]`)
+						.classList.add("active");
+					chatInputArea.classList.remove("hidden");
+					chatMessages.scrollTop = chatMessages.scrollHeight;
+				}
+
+				function sendAdminReply() {
+					const replyText = adminReplyInput.value.trim();
+					if (replyText && activeConversationId) {
+						socket.emit("sendMessage", {
+							convoId: activeConversationId,
+							user: messageDatabase[activeConversationId].user,
+							sender: "admin",
+							text: replyText,
+						});
+						adminReplyInput.value = "";
+					}
+				}
+
+				if (sendReplyBtn) {
+					sendReplyBtn.addEventListener("click", sendAdminReply);
+					adminReplyInput.addEventListener("keyup", (e) => {
+						if (e.key === "Enter") sendAdminReply();
+					});
+				}
+
+				// --- INITIALIZE APP ---
+				checkLoginStatus();
 			});
 		</script>
 	</body>
